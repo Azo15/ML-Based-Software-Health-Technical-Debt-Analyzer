@@ -98,7 +98,3 @@ python -m cli.main analyze "C:\Hedef\Git\Reposu" --file "src/core.py"
 Bu proje açık kaynaklıdır ve katkılarınızı bekliyoruz! 
 - Yeni bir özellik eklemeden veya büyük bir refactoring yapmadan önce lütfen tartışmak için bir **Issue** açın.
 - Pull Request gönderirken kodunuzun `PEP 8` standartlarına uyduğundan, gerekli Docstring ve Type Hinting içerdiğinden emin olun.
-
-## 📄 Lisans
-
-Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla detay için `LICENSE` dosyasına (varsa) bakabilirsiniz.
