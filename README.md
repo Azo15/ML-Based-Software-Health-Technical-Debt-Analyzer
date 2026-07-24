@@ -1,4 +1,4 @@
-# 🩺 ML-Based Software Health & Technical Debt Analyzer
+# 🩺 ML-Based Software Health & Technical Debt Analyzer 
 
 Modern yazılım projelerinde teknik borcu (technical debt) tespit etmek ve yönetmek, kodun uzun vadeli sürdürülebilirliği için kritik bir öneme sahiptir. **ML-Based Software Health & Technical Debt Analyzer**, Python projelerinin Git geçmişini analiz eden, karmaşıklık metriklerini çıkaran ve makine öğrenmesi algoritmaları kullanarak kodun sağlık durumunu otomatik olarak değerlendiren profesyonel bir komut satırı (CLI) aracıdır.
 
