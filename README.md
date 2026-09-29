@@ -153,6 +153,16 @@ python -m cli.main analyze "C:\Path\To\Target\Repo" --file "src/core.py"
 
 The default command analyzes all current tracked Python files. Fix-message labels are weak candidates, and insufficient class diversity leaves the risk score unavailable. See `docs/IMPLEMENTATION_PLAN.md` for the remaining research and product phases.
 
+## Report export / Rapor dışa aktarma
+
+Pass `--output report.json` or `--output report.csv` to `analyze`. The file must not
+already exist. JSON includes the model evaluation, all file metrics, and complete
+maintainability findings. CSV has one summary row per current Python file.
+
+`analyze` komutuna `--output rapor.json` veya `--output rapor.csv` ekleyin.
+Dosya önceden var olmamalıdır. JSON model değerlendirmesi, metrikler ve tüm bakım
+bulgularını; CSV ise her Python dosyası için bir özet satırı içerir.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please open an Issue to discuss proposed major changes before submitting a Pull Request.

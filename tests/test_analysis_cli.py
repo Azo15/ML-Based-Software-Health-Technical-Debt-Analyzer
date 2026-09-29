@@ -1,4 +1,6 @@
 import gc
+import csv
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -56,6 +58,30 @@ class AnalysisCliTests(unittest.TestCase):
     def test_file_option_rejects_paths_outside_repository(self):
         result = CliRunner().invoke(app, ["analyze", str(self.repo), "--file", "../outside.py"])
         self.assertEqual(result.exit_code, 1)
+
+    def test_json_export_preserves_findings_and_does_not_overwrite(self):
+        output = self.repo / "analysis.json"
+        args = ["analyze", str(self.repo), "--max-commits", "3",
+                "--observation-commits", "1", "--output", str(output)]
+        result = CliRunner().invoke(app, args)
+        self.assertEqual(result.exit_code, 0, result.output)
+        report = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(report["schema_version"], 1)
+        self.assertEqual({item["path"] for item in report["files"]}, {"src/a.py", "tests/a.py"})
+        self.assertTrue(all(item["result"]["risk_score"] is None for item in report["files"]))
+        self.assertEqual(CliRunner().invoke(app, args).exit_code, 1)
+
+    def test_csv_export_has_one_row_per_current_file(self):
+        output = self.repo / "analysis.csv"
+        result = CliRunner().invoke(app, [
+            "analyze", str(self.repo), "--max-commits", "3",
+            "--observation-commits", "1", "--output", str(output),
+        ])
+        self.assertEqual(result.exit_code, 0, result.output)
+        with output.open(encoding="utf-8", newline="") as report_file:
+            rows = list(csv.DictReader(report_file))
+        self.assertEqual({row["path"] for row in rows}, {"src/a.py", "tests/a.py"})
+        self.assertTrue(all(row["risk_score"] == "" for row in rows))
 
 
 if __name__ == "__main__":

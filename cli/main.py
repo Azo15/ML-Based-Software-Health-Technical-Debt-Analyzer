@@ -14,6 +14,7 @@ from data_collector.dataset import build_future_fix_dataset
 from data_collector.git_miner import GitMiner
 from feature_extractor.metrics_analyzer import MetricsAnalyzer
 from model.debt_estimator import DebtEstimator
+from cli.report_export import write_report
 from utils.logger import logger
 
 
@@ -66,6 +67,7 @@ def analyze(
     max_commits: int = typer.Option(100, "--max-commits", "-m", min=1),
     observation_commits: int = typer.Option(10, "--observation-commits", min=1),
     file_path: Optional[str] = typer.Option(None, "--file", "-f", help="One Python file relative to the repository"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o", help="New .json or .csv report path"),
 ):
     """Rank current Python files and report separate maintainability findings."""
     repo_root = Path(repo_path).resolve()
@@ -147,6 +149,21 @@ def analyze(
         )
     console.print(table)
     console.print("Risk rank score is relative and is not a calibrated defect probability.")
+
+    if output is not None:
+        export = {
+            "schema_version": 1,
+            "repository": str(repo_root),
+            "scan": {"max_commits": max_commits, "observation_commits": observation_commits},
+            "model_evaluation": report,
+            "files": findings,
+        }
+        try:
+            write_report(output, export)
+        except (OSError, ValueError, TypeError) as exc:
+            logger.error("Could not write report: %s", exc)
+            raise typer.Exit(code=1) from exc
+        console.print(f"Report saved: {output}")
 
     if file_path:
         item = findings[0]
