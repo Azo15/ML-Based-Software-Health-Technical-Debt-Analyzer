@@ -47,9 +47,20 @@ class DebtEstimatorTests(unittest.TestCase):
         self.assertNotIn("commit-14", estimator.train_commits)
         self.assertNotIn("commit-15", estimator.train_commits)
         self.assertIn("Average precision", report)
+        evaluation = estimator.evaluation
+        self.assertEqual(evaluation["purged_revisions"], 2)
+        self.assertEqual(evaluation["test_positives"], 1)
+        self.assertEqual(set(evaluation["comparisons"]), {
+            "random_forest", "logistic_regression", "size_baseline", "constant_baseline"
+        })
+        self.assertAlmostEqual(evaluation["comparisons"]["constant_baseline"]["average_precision"], 0.25)
+        self.assertEqual(evaluation["selection_policy"], "fixed_in_advance_not_selected_on_test")
         result = estimator.estimate_debt(metrics(21))
         self.assertIsNotNone(result["risk_score"])
         self.assertEqual(result["risk_score_kind"], "relative_ranking_not_calibrated_probability")
+        estimator.train([])
+        self.assertEqual(estimator.evaluation, {"status": "unavailable"})
+        self.assertIsNone(estimator.estimate_debt(metrics())["risk_score"])
 
     def test_one_class_cannot_train(self):
         data = []

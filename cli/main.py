@@ -156,6 +156,7 @@ def analyze(
             "repository": str(repo_root),
             "scan": {"max_commits": max_commits, "observation_commits": observation_commits},
             "model_evaluation": report,
+            "evaluation_details": estimator.evaluation,
             "files": findings,
         }
         try:
