@@ -38,6 +38,8 @@ ML-Based Software Health & Technical Debt Analyzer/
 
 ## 🚀 Kurulum
 
+Python 3.12 veya üzeri gereklidir. Tekrarlanabilir kurulum için bu sürümde test edilen bağımlılıklar `requirements.lock` içinde sabitlenmiştir. `venv` klasörü Git tarafından takip edilmez; her makinede yeniden oluşturulur.
+
 Aracı kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyin:
 
 1. Depoyu klonlayın:
@@ -52,7 +54,7 @@ Aracı kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları iz
    source venv/bin/activate
 
 3. Gerekli bağımlılıkları yükleyin:
-   pip install -r requirements.txt
+   pip install -r requirements.lock
 
 ## 💻 Kullanım
 
@@ -120,6 +122,8 @@ ML-Based Software Health & Technical Debt Analyzer/
 
 ## 🚀 Installation
 
+Python 3.12 or newer is required. Use the tested, pinned dependency set in `requirements.lock` for reproducible installation. The local `venv` directory is not tracked by Git.
+
 1. Clone the repository:
    git clone https://github.com/Azo15/ML-Based-Software-Health-Technical-Debt-Analyzer.git
    cd "ML-Based Software Health & Technical Debt Analyzer"
@@ -132,7 +136,7 @@ ML-Based Software Health & Technical Debt Analyzer/
    source venv/bin/activate
 
 3. Install dependencies:
-   pip install -r requirements.txt
+   pip install -r requirements.lock
   
 ## 💻 Usage
 

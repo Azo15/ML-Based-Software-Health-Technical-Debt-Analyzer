@@ -17,6 +17,10 @@ from utils.logger import logger
 app = typer.Typer(help="ML-Based Software Health & Technical Debt Analyzer CLI")
 console = Console()
 
+@app.callback()
+def main():
+    """Analyze Python repositories and report code health."""
+
 @app.command()
 def analyze(
     repo_path: str = typer.Argument(..., help="Path to the local repository or remote URL"),
