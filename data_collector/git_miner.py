@@ -4,6 +4,7 @@ Uses PyDriller to traverse commits, identify bug-fixing commits,
 and extract file modifications.
 """
 import re
+from pathlib import PurePosixPath
 from typing import List, Dict, Any
 from pydriller import Repository
 from utils.logger import logger
@@ -56,12 +57,17 @@ class GitMiner:
         Returns:
             List[Dict[str, Any]]: A list of dictionaries containing file data and bug-fix labels.
         """
+        if max_commits < 1:
+            raise ValueError("max_commits must be at least 1")
+
         logger.info(f"Starting to mine repository: {self.repo_path}")
         dataset = []
         commit_count = 0
 
         try:
-            for commit in Repository(self.repo_path).traverse_commits():
+            # PyDriller visits the oldest commit first by default. A bounded
+            # analysis must start from the current history, not the root commit.
+            for commit in Repository(self.repo_path, order="reverse").traverse_commits():
                 if commit_count >= max_commits:
                     logger.info(f"Reached max commits limit ({max_commits}). Stopping miner.")
                     break
@@ -70,11 +76,23 @@ class GitMiner:
 
                 for modified_file in commit.modified_files:
                     # We are only interested in Python files that exist and have source code
-                    if modified_file.filename.endswith('.py') and modified_file.source_code:
+                    path = modified_file.new_path or modified_file.old_path
+                    if not path:
+                        continue
+                    normalized_path = path.replace('\\', '/')
+                    path_parts = PurePosixPath(normalized_path).parts
+                    if any(part in {'venv', '.venv', '__pycache__'} for part in path_parts):
+                        continue
+                    if normalized_path.endswith('.py') and modified_file.source_code:
                         dataset.append({
                             'commit_hash': commit.hash,
+                            'commit_date': commit.committer_date.isoformat(),
                             'filename': modified_file.filename,
+                            'path': normalized_path,
+                            'old_path': modified_file.old_path,
                             'source_code': modified_file.source_code,
+                            'source_code_before': modified_file.source_code_before,
+                            'is_bug_fix_candidate': int(is_bug_fix),
                             'is_bug_fix': int(is_bug_fix)
                         })
                 

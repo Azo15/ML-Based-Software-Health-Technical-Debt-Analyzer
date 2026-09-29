@@ -1,144 +1,131 @@
-"""
-Module for training the ML model and estimating Technical Debt.
-Uses RandomForestClassifier to predict bug-proneness and calculate
-Health Score and Technical Debt Index.
-"""
-from typing import List, Dict, Any, Tuple
+"""File risk ranking and separate, rule-based maintainability findings."""
+
+from typing import Any, Dict, List, Optional
+
 import pandas as pd
-import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
-from utils.logger import logger
+from sklearn.metrics import average_precision_score, classification_report
+
 
 class DebtEstimator:
-    """
-    Handles machine learning operations, technical debt estimation,
-    and refactoring suggestions based on metrics.
+    """Retained name for CLI compatibility; risk is distinct from debt findings.
+
+    A Random Forest score is useful for ranking. It is not displayed as a
+    calibrated defect probability. The candidate labels are noisy signals from
+    future fix-message commits, not confirmed bug ground truth.
     """
 
-    def __init__(self):
-        # We use a RandomForestClassifier as requested for robust estimation
+    features_col = [
+        "cyclomatic_complexity",
+        "cyclomatic_complexity_max",
+        "halstead_volume",
+        "halstead_difficulty",
+        "halstead_effort",
+        "loc",
+        "num_functions",
+    ]
+
+    def __init__(self) -> None:
         self.model = RandomForestClassifier(n_estimators=100, random_state=42)
-        self.features_col = [
-            'cyclomatic_complexity', 'halstead_volume', 
-            'halstead_difficulty', 'halstead_effort', 
-            'loc', 'num_functions'
-        ]
         self.is_trained = False
+        self.train_commits: List[str] = []
+        self.test_commits: List[str] = []
 
     def train(self, data: List[Dict[str, Any]]) -> str:
-        """
-        Trains the RandomForest model on the provided dataset.
+        """Train on earlier commits and evaluate on later, untouched commits."""
+        self.is_trained = False
+        self.train_commits = []
+        self.test_commits = []
+        if len(data) < 10:
+            return "Model unavailable: at least 10 labeled file revisions are required."
 
-        Args:
-            data (List[Dict[str, Any]]): Dataset containing metrics and 'is_bug_fix' labels.
+        required = set(self.features_col) | {
+            "future_bug_fix", "commit_hash", "commit_date", "commit_sequence",
+            "label_observed_at_sequence", "path",
+        }
+        if any(not required.issubset(row) for row in data):
+            raise ValueError("Dataset is missing required features, provenance, or future labels")
 
-        Returns:
-            str: Classification report string.
-        """
         df = pd.DataFrame(data)
-        
-        # Ensure we have the necessary columns
-        if not all(col in df.columns for col in self.features_col) or 'is_bug_fix' not in df.columns:
-            logger.error("Dataset is missing required metric columns or labels.")
-            raise ValueError("Invalid dataset structure for training.")
+        pd.to_datetime(df["commit_date"], utc=True, errors="raise")
+        df = df.sort_values(["commit_sequence"], kind="stable")
+        commit_order = df["commit_hash"].drop_duplicates().tolist()
+        if len(commit_order) < 5:
+            return "Model unavailable: at least five distinct commits are required."
 
-        X = df[self.features_col]
-        y = df['is_bug_fix']
+        cutoff = max(1, int(len(commit_order) * 0.8))
+        self.train_commits = commit_order[:cutoff]
+        self.test_commits = commit_order[cutoff:]
+        first_test_sequence = int(df.loc[df["commit_hash"] == self.test_commits[0], "commit_sequence"].iloc[0])
+        # A training label is usable only if its entire future observation
+        # window ended before the first held-out commit.
+        train = df[
+            df["commit_hash"].isin(self.train_commits)
+            & (df["label_observed_at_sequence"] < first_test_sequence)
+        ]
+        test = df[df["commit_hash"].isin(self.test_commits)]
+        self.train_commits = train["commit_hash"].drop_duplicates().tolist()
+        if len(train) < 5:
+            return "Model unavailable: fewer than five training revisions remain after the time boundary."
+        if train["future_bug_fix"].nunique() < 2 or test["future_bug_fix"].nunique() < 2:
+            return "Model unavailable: both time periods need fix and non-fix examples."
 
-        if len(df) < 10:
-            logger.warning("Very small dataset. Model performance might be poor.")
+        X_train = train[self.features_col].apply(pd.to_numeric, errors="raise")
+        X_test = test[self.features_col].apply(pd.to_numeric, errors="raise")
+        if X_train.isna().any().any() or X_test.isna().any().any():
+            raise ValueError("Dataset contains missing numeric features")
 
-        # If only one class is present in the target, we can't train effectively
-        if len(y.unique()) < 2:
-            logger.warning("Only one class found in target 'is_bug_fix'. Creating a dummy model.")
-            # Fallback for demonstration on tiny/clean repos
-            self.is_trained = False
-            return "Not enough class diversity to train model. (Need both bug-fix and non-bug-fix commits)"
-
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-        logger.info("Training RandomForestClassifier...")
-        self.model.fit(X_train, y_train)
+        self.model.fit(X_train, train["future_bug_fix"])
+        predictions = self.model.predict(X_test)
+        positive_column = list(self.model.classes_).index(1)
+        scores = self.model.predict_proba(X_test)[:, positive_column]
         self.is_trained = True
-        
-        y_pred = self.model.predict(X_test)
-        report = classification_report(y_test, y_pred, zero_division=0)
-        logger.info("Model training completed successfully.")
-        
-        return report
+        report = classification_report(test["future_bug_fix"], predictions, zero_division=0)
+        average_precision = average_precision_score(test["future_bug_fix"], scores)
+        return (
+            f"Time holdout: {len(train)} train and {len(test)} test revisions; "
+            f"{len(self.train_commits)} train and {len(self.test_commits)} test commits "
+            f"after excluding labels observed in the test period.\n"
+            f"Average precision (PR AUC): {average_precision:.3f}\n{report}"
+        )
 
-    def estimate_debt(self, metrics: Dict[str, float]) -> Dict[str, Any]:
-        """
-        Estimates the Health Score and Technical Debt Index for a given set of metrics.
-
-        Args:
-            metrics (Dict[str, float]): The software metrics of a file/function.
-
-        Returns:
-            Dict[str, Any]: Contains score, index, and refactoring suggestions.
-        """
-        # Convert metrics to DataFrame for prediction
-        df_metrics = pd.DataFrame([metrics])[self.features_col]
-        
-        bug_probability = 0.5 # Default middle ground if not trained
-        
+    def estimate_debt(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
+        """Return ranking score and independent maintainability findings."""
+        risk_score: Optional[float] = None
         if self.is_trained:
-            # predict_proba returns array of [prob_no_bug, prob_bug]
-            proba = self.model.predict_proba(df_metrics)[0]
-            if len(proba) > 1:
-                bug_probability = proba[1]
-            else:
-                # Fallback if model somehow only learned one class
-                bug_probability = 0.0 if self.model.classes_[0] == 0 else 1.0
+            features = pd.DataFrame([metrics])[self.features_col]
+            positive_column = list(self.model.classes_).index(1)
+            risk_score = round(float(self.model.predict_proba(features)[0][positive_column]), 3)
 
-        # Health Score Calculation (100 is best, 0 is worst)
-        # We blend ML bug probability with direct metrics penalties
-        base_score = (1.0 - bug_probability) * 100
-        
-        cc_penalty = min(metrics.get('cyclomatic_complexity', 0) * 1.5, 30)
-        loc_penalty = min(metrics.get('loc', 0) * 0.05, 20)
-        
-        health_score = max(0, min(100, base_score - cc_penalty - loc_penalty))
-        
-        # Technical Debt Index Categorization
-        if health_score >= 80:
-            debt_index = "Low"
-        elif health_score >= 50:
-            debt_index = "Medium"
-        else:
-            debt_index = "High"
-
-        # Generate Refactoring Suggestions
-        suggestions = self._generate_suggestions(metrics)
-
+        findings = self._maintainability_findings(metrics)
         return {
-            'health_score': round(health_score, 2),
-            'technical_debt_index': debt_index,
-            'bug_probability': round(bug_probability, 2),
-            'refactoring_suggestions': suggestions
+            "risk_score": risk_score,
+            "risk_score_kind": "relative_ranking_not_calibrated_probability" if risk_score is not None else "unavailable",
+            "maintainability_findings": findings,
         }
 
-    def _generate_suggestions(self, metrics: Dict[str, float]) -> List[str]:
-        """
-        Generates actionable refactoring suggestions based on metrics thresholds.
-        """
-        suggestions = []
-        
-        cc = metrics.get('cyclomatic_complexity', 0)
-        if cc > 10:
-            suggestions.append(f"High Cyclomatic Complexity ({cc:.1f}): Consider splitting large functions to reduce execution paths.")
-            
-        loc = metrics.get('loc', 0)
+    @staticmethod
+    def _maintainability_findings(metrics: Dict[str, Any]) -> List[Dict[str, str]]:
+        findings: List[Dict[str, str]] = []
+        maximum_complexity = metrics.get("cyclomatic_complexity_max", 0)
+        if maximum_complexity > 10:
+            findings.append({
+                "rule": "complex_function",
+                "reason": f"Most complex function has cyclomatic complexity {maximum_complexity:.1f} (>10)",
+                "suggestion": "Review the function's branches and extract coherent steps with tests.",
+            })
+        loc = metrics.get("loc", 0)
         if loc > 300:
-            suggestions.append(f"Large File Size ({loc} LOC): The file is getting too large. Consider extracting logic into separate modules.")
-            
-        difficulty = metrics.get('halstead_difficulty', 0)
+            findings.append({
+                "rule": "large_file",
+                "reason": f"File has {loc:.0f} non-comment lines (>300)",
+                "suggestion": "Review whether distinct responsibilities can be moved into smaller modules.",
+            })
+        difficulty = metrics.get("halstead_difficulty", 0)
         if difficulty > 50:
-            suggestions.append(f"High Halstead Difficulty ({difficulty:.1f}): The code is dense and hard to understand. Add detailed docstrings and simplify expressions.")
-            
-        if not suggestions:
-            suggestions.append("Code looks healthy! Keep up the good work.")
-            
-        return suggestions
+            findings.append({
+                "rule": "dense_expressions",
+                "reason": f"Halstead difficulty is {difficulty:.1f} (>50)",
+                "suggestion": "Simplify dense expressions and name intermediate concepts.",
+            })
+        return findings
