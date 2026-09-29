@@ -4,7 +4,7 @@ This project ranks Python files for future bug-fix risk and reports maintainabil
 
 ## Delivery rules
 
-- Implement one coherent change per commit on `codex/software-health-phase1`.
+- Implement one coherent change per commit on `azo2`.
 - Keep the original Desktop checkout and its staged `CONTRIBUTING.md` change untouched.
 - Run relevant tests before each implementation commit and record the result in the commit message or change notes.
 - Do not execute code from analyzed repositories. Preserve the provenance of every feature, label, model run, and prediction.
