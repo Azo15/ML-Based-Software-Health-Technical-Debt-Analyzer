@@ -65,6 +65,14 @@ class GitMinerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             GitMiner(str(self.repo)).mine_commits(max_commits=0)
 
+    def test_historically_committed_virtual_environment_is_excluded(self):
+        self.commit_file("venv/lib/vendor.py", "value = 1\n", "add environment")
+        self.commit_file("src/app.py", "value = 2\n", "add application")
+
+        rows = GitMiner(str(self.repo)).mine_commits(max_commits=2)
+
+        self.assertEqual([row["path"] for row in rows], ["src/app.py"])
+
 
 if __name__ == "__main__":
     unittest.main()

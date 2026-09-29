@@ -4,6 +4,7 @@ Uses PyDriller to traverse commits, identify bug-fixing commits,
 and extract file modifications.
 """
 import re
+from pathlib import PurePosixPath
 from typing import List, Dict, Any
 from pydriller import Repository
 from utils.logger import logger
@@ -76,12 +77,18 @@ class GitMiner:
                 for modified_file in commit.modified_files:
                     # We are only interested in Python files that exist and have source code
                     path = modified_file.new_path or modified_file.old_path
-                    if path and path.endswith('.py') and modified_file.source_code:
+                    if not path:
+                        continue
+                    normalized_path = path.replace('\\', '/')
+                    path_parts = PurePosixPath(normalized_path).parts
+                    if any(part in {'venv', '.venv', '__pycache__'} for part in path_parts):
+                        continue
+                    if normalized_path.endswith('.py') and modified_file.source_code:
                         dataset.append({
                             'commit_hash': commit.hash,
                             'commit_date': commit.committer_date.isoformat(),
                             'filename': modified_file.filename,
-                            'path': path.replace('\\', '/'),
+                            'path': normalized_path,
                             'old_path': modified_file.old_path,
                             'source_code': modified_file.source_code,
                             'source_code_before': modified_file.source_code_before,

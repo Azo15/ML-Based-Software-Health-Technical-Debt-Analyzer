@@ -8,8 +8,8 @@ Modern yazılım projelerinde teknik borcu (technical debt) tespit etmek ve yön
 
 - **Git Geçmişi Madenciliği:** PyDriller entegrasyonu ile repodaki commit'leri tarar, hata düzeltmelerini (bug-fix) commit mesajlarındaki anahtar kelimelerden otomatik tespit eder.
 - **Detaylı Metrik Çıkarımı:** radon ve lizard araçlarını kullanarak dosya bazında McCabe Cyclomatic Complexity, Halstead metrikleri (Volume, Difficulty, Effort) ve LOC (Lines of Code) değerlerini hesaplar.
-- **Yapay Zeka Destekli Analiz:** Elde edilen metrikler ve hata-düzeltme etiketleri ile bir RandomForestClassifier modeli eğiterek, kodun gelecekte hataya ne kadar meyilli olduğunu tahmin eder.
-- **Sağlık Skoru ve Teknik Borç İndeksi:** Sadece çıplak olasılıklar yerine, 0'dan 100'e kadar okunabilir bir Health Score (Sağlık Skoru) üretir. Bu skora göre Low/Medium/High olarak Technical Debt Index (Teknik Borç İndeksi) belirler.
+- **Zaman sıralı risk analizi:** Random Forest, yalnızca sonraki commit'lerde hata düzeltme adayı görülen eski dosya sürümlerinden öğrenir. Eğitim daha eski, değerlendirme daha yeni commit'lerde yapılır.
+- **Ayrı bakım bulguları:** Karmaşıklık, dosya boyutu ve Halstead eşikleri açık kurallarla raporlanır. Risk sıralama skoru, kalibre edilmiş hata olasılığı veya teknik borç süresi değildir.
 - **Aksiyona Yönelik Öneriler:** Metrikler riskli seviyelere (Örn: Complexity > 10, LOC > 300) ulaştığında kullanıcıya doğrudan çözüm odaklı Refactoring Önerileri sunar.
 - **Modern CLI Arayüzü:** Typer ve Rich kütüphaneleri ile renklendirilmiş, okunabilir ve profesyonel terminal çıktıları sağlar.
 
@@ -26,7 +26,7 @@ ML-Based Software Health & Technical Debt Analyzer/
 │   └── metrics_analyzer.py # Radon ve Lizard kullanarak McCabe & Halstead hesabı
 │
 ├── model/                   # ML eğitim, tahmin ve metrik hesaplama süreçleri
-│   └── debt_estimator.py    # RandomForest modeli, Health Score & Debt Index hesaplaması
+│   └── debt_estimator.py    # Zaman sıralı risk modeli ve ayrı bakım bulguları
 │
 ├── cli/                     # Kullanıcının projeyi çalıştıracağı arayüz
 │   └── main.py              # Typer tabanlı, modern komut satırı uygulaması
@@ -71,10 +71,12 @@ python -m cli.main analyze "C:\Hedef\Git\Reposu" --file "src/core.py"
 
 ## 🧠 Nasıl Çalışır?
 
-1. Phase 1 (Mining): Hedef repoya bağlanılır. Geçmiş commitler okunur. "fix", "bug", "resolve" gibi kelimeler içeren commitler bulunur ve bu commitlerde değişen Python dosyalarının kaynak kodları bir veri seti olarak toplanır.
+1. Phase 1 (Mining): En yeni commit'lerden başlanır. Değişen Python dosyaları, yolları ve düzeltme öncesi/sonrası sürümleri toplanır.
 2. Phase 2 (Metrics): Toplanan her bir Python dosyası ayrıştırılır. Dosyadaki kod satırı sayısı (LOC), döngü/şartlı ifade karmaşıklığı (Cyclomatic Complexity) ve kodun anlaşılma zorluğu (Halstead Difficulty) gibi veriler matematiksel olarak hesaplanır.
-3. Phase 3 (Training): Makine Öğrenmesi algoritması (Random Forest), bu karmaşıklık metrikleri ile dosyanın hatalı olma durumu (bug-fix) arasındaki ilişkiyi öğrenir.
-4. Phase 4 (Estimation): Belirtilen (veya varsayılan) hedef dosya analiz edilir. Modelin hata olasılığı tahmini ve doğrudan metrik cezaları birleştirilerek nihai bir Sağlık Skoru (0-100) ortaya çıkarılır.
+3. Phase 3 (Training): Bir dosya sürümü, yalnızca daha sonraki gözlem penceresinde aynı dosyaya ait düzeltme adayı varsa pozitif etiketlenir. Yeterli ve çeşitli veri yoksa model eğitilmez.
+4. Phase 4 (Estimation): Depodaki mevcut Python dosyaları incelenir. Model uygunsa göreli risk sırası; ayrıca kural temelli bakım bulguları gösterilir. Sayısal hata olasılığı veya birleşik sağlık puanı üretilmez.
+
+Commit mesajından bulunan düzeltme etiketleri kesin hata kanıtı değildir. Model skoru kalibre edilmemiş bir sıralama sinyalidir. Proje planı ve kabul koşulları için `docs/IMPLEMENTATION_PLAN.md` dosyasına bakın.
 
 ## 🤝 Katkıda Bulunma
 
@@ -92,8 +94,8 @@ Identifying and managing technical debt in modern software projects is critical 
 
 - **Git History Mining:** Integrated with PyDriller to scan repository commits and automatically detect bug-fixes based on commit message keywords.
 - **Detailed Metric Extraction:** Uses radon and lizard to compute file-level McCabe Cyclomatic Complexity, Halstead Metrics (Volume, Difficulty, Effort), and Lines of Code (LOC).
-- **AI-Powered Analysis:** Trains a RandomForestClassifier on extracted metrics and bug-fix labels to predict code error-proneness.
-- **Health Score & Technical Debt Index:** Generates an intuitive Health Score (0-100) instead of raw probabilities, categorizing code into Low, Medium, or High Technical Debt Index.
+- **Time-aware risk ranking:** Trains a Random Forest on earlier file revisions labeled by later fix-candidate commits, with a later commit holdout.
+- **Separate maintainability findings:** Explicit complexity, size, and Halstead rules are reported independently of risk. The rank score is not a calibrated defect probability or remediation time estimate.
 - **Actionable Refactoring Tips:** Offers targeted refactoring suggestions when complexity metrics exceed safe thresholds (e.g., Complexity > 10, LOC > 300).
 - **Modern CLI Interface:** Features clean, color-coded terminal output powered by Typer and Rich.
 
@@ -110,7 +112,7 @@ ML-Based Software Health & Technical Debt Analyzer/
 │   └── metrics_analyzer.py # Radon & Lizard metric calculation
 │
 ├── model/                  # ML training, prediction & scoring logic
-│   └── debt_estimator.py   # RandomForest model & Debt Index evaluation
+│   └── debt_estimator.py   # Time holdout model and maintainability findings
 │
 ├── cli/                    # User CLI interface
 │   └── main.py             # Typer-based terminal application
@@ -148,6 +150,8 @@ python -m cli.main analyze "C:\Path\To\Target\Repo" --max-commits 200
 
 Analyze Specific File:
 python -m cli.main analyze "C:\Path\To\Target\Repo" --file "src/core.py"
+
+The default command analyzes all current tracked Python files. Fix-message labels are weak candidates, and insufficient class diversity leaves the risk score unavailable. See `docs/IMPLEMENTATION_PLAN.md` for the remaining research and product phases.
 
 ## 🤝 Contributing
 
