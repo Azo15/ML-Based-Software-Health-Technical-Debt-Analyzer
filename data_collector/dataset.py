@@ -47,6 +47,8 @@ def build_future_fix_dataset(
         labeled.append({
             "commit_hash": row["commit_hash"],
             "commit_date": row["commit_date"],
+            "commit_sequence": index,
+            "label_observed_at_sequence": index + observation_commits,
             "path": path,
             "source_code": row["source_code"],
             "future_bug_fix": int(has_future_fix),

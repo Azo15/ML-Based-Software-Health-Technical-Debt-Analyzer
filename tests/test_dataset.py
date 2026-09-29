@@ -27,6 +27,8 @@ class FutureFixDatasetTests(unittest.TestCase):
         self.assertEqual(set(by_commit), {"1", "2"})
         self.assertEqual(by_commit["1"]["future_bug_fix"], 1)
         self.assertEqual(by_commit["1"]["source_code"], "broken")
+        self.assertEqual(by_commit["1"]["commit_sequence"], 0)
+        self.assertEqual(by_commit["1"]["label_observed_at_sequence"], 1)
         self.assertEqual(by_commit["2"]["future_bug_fix"], 0)
         self.assertEqual(by_commit["2"]["source_code"], "corrected")
 

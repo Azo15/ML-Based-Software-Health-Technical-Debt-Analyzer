@@ -39,14 +39,16 @@ class DebtEstimator:
         if len(data) < 10:
             return "Model unavailable: at least 10 labeled file revisions are required."
 
-        required = set(self.features_col) | {"future_bug_fix", "commit_hash", "commit_date", "path"}
+        required = set(self.features_col) | {
+            "future_bug_fix", "commit_hash", "commit_date", "commit_sequence",
+            "label_observed_at_sequence", "path",
+        }
         if any(not required.issubset(row) for row in data):
             raise ValueError("Dataset is missing required features, provenance, or future labels")
 
         df = pd.DataFrame(data)
-        df["_commit_time"] = pd.to_datetime(df["commit_date"], utc=True, errors="raise")
-        # Preserve the miner's commit order when timestamps tie to the second.
-        df = df.sort_values(["_commit_time"], kind="stable")
+        pd.to_datetime(df["commit_date"], utc=True, errors="raise")
+        df = df.sort_values(["commit_sequence"], kind="stable")
         commit_order = df["commit_hash"].drop_duplicates().tolist()
         if len(commit_order) < 5:
             return "Model unavailable: at least five distinct commits are required."
@@ -54,8 +56,17 @@ class DebtEstimator:
         cutoff = max(1, int(len(commit_order) * 0.8))
         self.train_commits = commit_order[:cutoff]
         self.test_commits = commit_order[cutoff:]
-        train = df[df["commit_hash"].isin(self.train_commits)]
+        first_test_sequence = int(df.loc[df["commit_hash"] == self.test_commits[0], "commit_sequence"].iloc[0])
+        # A training label is usable only if its entire future observation
+        # window ended before the first held-out commit.
+        train = df[
+            df["commit_hash"].isin(self.train_commits)
+            & (df["label_observed_at_sequence"] < first_test_sequence)
+        ]
         test = df[df["commit_hash"].isin(self.test_commits)]
+        self.train_commits = train["commit_hash"].drop_duplicates().tolist()
+        if len(train) < 5:
+            return "Model unavailable: fewer than five training revisions remain after the time boundary."
         if train["future_bug_fix"].nunique() < 2 or test["future_bug_fix"].nunique() < 2:
             return "Model unavailable: both time periods need fix and non-fix examples."
 
@@ -73,7 +84,8 @@ class DebtEstimator:
         average_precision = average_precision_score(test["future_bug_fix"], scores)
         return (
             f"Time holdout: {len(train)} train and {len(test)} test revisions; "
-            f"{len(self.train_commits)} train and {len(self.test_commits)} test commits.\n"
+            f"{len(self.train_commits)} train and {len(self.test_commits)} test commits "
+            f"after excluding labels observed in the test period.\n"
             f"Average precision (PR AUC): {average_precision:.3f}\n{report}"
         )
 
