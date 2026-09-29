@@ -51,7 +51,7 @@ def analyze(
         with console.status("[bold green]Calculating metrics...") as status:
             for item in raw_data:
                 metrics = analyzer.analyze_code(item['source_code'])
-                if metrics['loc'] > 0: # Only keep if there's actual code
+                if metrics['valid'] and metrics['loc'] > 0:
                     item.update(metrics)
                     processed_data.append(item)
                 
@@ -111,6 +111,7 @@ def display_results(file_name: str, metrics: dict, debt_results: dict):
     
     metrics_table.add_row("Lines of Code (LOC)", str(metrics.get('loc', 0)))
     metrics_table.add_row("Cyclomatic Complexity", f"{metrics.get('cyclomatic_complexity', 0):.2f}")
+    metrics_table.add_row("Maximum Function Complexity", f"{metrics.get('cyclomatic_complexity_max', 0):.2f}")
     metrics_table.add_row("Halstead Difficulty", f"{metrics.get('halstead_difficulty', 0):.2f}")
     metrics_table.add_row("Halstead Volume", f"{metrics.get('halstead_volume', 0):.2f}")
     metrics_table.add_row("Number of Functions", str(metrics.get('num_functions', 0)))
