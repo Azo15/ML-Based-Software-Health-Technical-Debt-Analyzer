@@ -12,9 +12,9 @@ def _safe_csv_text(value: str) -> str:
     return "'" + value if value.lstrip().startswith(("=", "+", "-", "@")) else value
 
 
-def write_report(path: Path, report: dict[str, Any]) -> None:
-    """Export JSON or CSV without silently replacing an existing report."""
-    suffix = path.suffix.lower()
+def render_report(report: dict[str, Any], format: str) -> str:
+    """Serialize a report for file and HTTP clients using the same format."""
+    suffix = "." + format.lower()
     if suffix == ".json":
         contents = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
     elif suffix == ".csv":
@@ -41,6 +41,11 @@ def write_report(path: Path, report: dict[str, Any]) -> None:
         contents = buffer.getvalue()
     else:
         raise ValueError("Report filename must end in .json or .csv")
+    return contents
 
+
+def write_report(path: Path, report: dict[str, Any]) -> None:
+    """Export JSON or CSV without silently replacing an existing report."""
+    contents = render_report(report, path.suffix.lstrip("."))
     with path.open("x", encoding="utf-8", newline="") as output:
         output.write(contents)

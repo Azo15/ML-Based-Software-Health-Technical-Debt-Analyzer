@@ -17,5 +17,8 @@ dist/
 .env.*
 !.env.example
 reports/
+*.sqlite3
+*.sqlite3-*
+*.sqlite3.lock
 .idea/
 .vscode/
