@@ -15,6 +15,7 @@ scores and still provide maintainability findings when no model can be trained.
    Completed on Windows, 2026-10-01; see `ANALYSIS_SERVICE.md`.
 3. Phase 4.1: local API and background jobs with progress, error states and saved
    reports; a failed scan must not prevent the next scan.
+   Completed on Windows, 2026-10-01; see `LOCAL_API.md`.
 4. Phase 4.2: browser pages for adding a local project, starting a scan, viewing
    ranked files, opening file metrics/findings and downloading JSON/CSV reports.
 5. Phase 4.3 — **MVP ready for user testing**: complete the full journey below on

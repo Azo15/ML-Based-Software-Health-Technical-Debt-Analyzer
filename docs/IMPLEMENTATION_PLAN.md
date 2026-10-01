@@ -42,6 +42,11 @@ and exit-code semantics are documented in `ANALYSIS_SERVICE.md`. Phase 4.1 is ne
 
 Build a Python API around the analysis core and background scan jobs. Add project overview, ranked file list, file history, findings, and model evaluation screens. Keep data local by default. Exit gate: a user can add a local repository, run a scan, inspect a file, and download a report through the UI.
 
+Phase 4.1 completed on Windows (2026-10-01): local FastAPI service, a bounded
+single-worker queue, durable SQLite reports, progress/error endpoints and report
+downloads. All 48 tests passed, including HTTP-to-analysis integration. See
+`LOCAL_API.md`. User-facing pages (4.2) and MVP acceptance (4.3) remain outstanding.
+
 ## Phase 5 — GitHub and CI integration
 
 Accept public GitHub repository URLs with bounded clone/scan size and time. Add a GitHub Actions example that publishes a machine-readable report and detects risk or maintainability regression. Exit gate: an example public repository and CI run produce the same report format as local analysis.

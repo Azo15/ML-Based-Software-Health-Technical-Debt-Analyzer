@@ -153,6 +153,15 @@ python -m cli.main analyze "C:\Path\To\Target\Repo" --file "src/core.py"
 
 The default command analyzes all current tracked Python files. Fix-message labels are weak candidates, and insufficient class diversity leaves the risk score unavailable. See `docs/IMPLEMENTATION_PLAN.md` for the remaining research and product phases.
 
+## Local API / Yerel API (Faz 4.1)
+
+Bağımlılıkları yükledikten sonra `python -m web --port 8765` ile API'yi başlatın.
+`http://127.0.0.1:8765/docs` adresinde etkileşimli API belgesi bulunur.
+Proje ve sonuç ekranları Faz 4.2'de eklenecektir.
+Launch the local API with `python -m web --port 8765`; interactive reference is at
+`http://127.0.0.1:8765/docs`. See [`docs/LOCAL_API.md`](docs/LOCAL_API.md) for job
+states, storage, request examples and restart behavior.
+
 ## Report export / Rapor dışa aktarma
 
 Current-file filters / Mevcut dosya filtreleri:
