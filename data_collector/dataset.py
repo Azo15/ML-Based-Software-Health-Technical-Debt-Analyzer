@@ -33,17 +33,17 @@ def build_future_fix_dataset(
             continue
 
         future_hashes = commit_order[index + 1:index + observation_commits + 1]
-        future_fixes = [
-            future_row
-            for commit_hash in future_hashes
-            for future_row in rows_by_commit[commit_hash]
-            if future_row.get("is_bug_fix_candidate", future_row.get("is_bug_fix", 0))
-        ]
         path = row["path"]
-        has_future_fix = any(
-            path == future_row["path"] or path == future_row.get("old_path")
-            for future_row in future_fixes
-        )
+        tracked_path = path
+        evidence = []
+        for commit_hash in future_hashes:
+            for future_row in rows_by_commit[commit_hash]:
+                if tracked_path not in (future_row["path"], future_row.get("old_path")):
+                    continue
+                tracked_path = future_row["path"]
+                if future_row.get("is_bug_fix_candidate", future_row.get("is_bug_fix", 0)):
+                    evidence.append({"commit_hash": commit_hash, "path": tracked_path,
+                                     "subject": future_row.get("commit_subject", "")})
         labeled.append({
             "commit_hash": row["commit_hash"],
             "commit_date": row["commit_date"],
@@ -51,7 +51,12 @@ def build_future_fix_dataset(
             "label_observed_at_sequence": index + observation_commits,
             "path": path,
             "source_code": row["source_code"],
-            "future_bug_fix": int(has_future_fix),
+            "future_bug_fix": int(bool(evidence)),
+            "label_evidence": evidence,
+            "observation_window_commits": future_hashes,
+            **{key: row[key] for key in (
+                "change_churn", "prior_change_count", "prior_churn", "history_lookback_commits"
+            ) if key in row},
             "label_source": "commit_message_candidate",
             "observation_commits": observation_commits,
         })

@@ -100,6 +100,10 @@ class DebtEstimator:
                 test["future_bug_fix"], [float(train["future_bug_fix"].mean())] * len(test)
             ),
         }
+        if "prior_churn" in test.columns and test["prior_churn"].notna().all():
+            comparisons["prior_churn_baseline"] = ranking_metrics(
+                test["future_bug_fix"], test["prior_churn"]
+            )
         self.evaluation = {
             "status": "evaluated",
             "selected_model": "random_forest",

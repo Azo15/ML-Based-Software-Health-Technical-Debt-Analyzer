@@ -8,6 +8,7 @@ from pathlib import PurePosixPath
 from typing import List, Dict, Any
 from pydriller import Repository
 from utils.logger import logger
+from data_collector.history import add_history_metrics
 
 class GitMiner:
     """
@@ -87,6 +88,9 @@ class GitMiner:
                         dataset.append({
                             'commit_hash': commit.hash,
                             'commit_date': commit.committer_date.isoformat(),
+                            'commit_subject': commit.msg.splitlines()[0] if commit.msg else '',
+                            'added_lines': modified_file.added_lines,
+                            'deleted_lines': modified_file.deleted_lines,
                             'filename': modified_file.filename,
                             'path': normalized_path,
                             'old_path': modified_file.old_path,
@@ -101,7 +105,7 @@ class GitMiner:
                     logger.debug(f"Processed {commit_count} commits...")
 
             logger.info(f"Mining completed. Extracted {len(dataset)} Python file modifications from {commit_count} commits.")
-            return dataset
+            return add_history_metrics(dataset)
 
         except Exception as e:
             logger.error(f"Error while mining repository: {e}")

@@ -37,6 +37,7 @@ class DebtEstimatorTests(unittest.TestCase):
                 "commit_sequence": i,
                 "label_observed_at_sequence": i + 2,
                 "path": "src/a.py",
+                "prior_churn": 10 if i % 3 == 0 else 0,
                 "future_bug_fix": int(i % 3 == 0),
             })
         estimator = DebtEstimator()
@@ -51,8 +52,10 @@ class DebtEstimatorTests(unittest.TestCase):
         self.assertEqual(evaluation["purged_revisions"], 2)
         self.assertEqual(evaluation["test_positives"], 1)
         self.assertEqual(set(evaluation["comparisons"]), {
-            "random_forest", "logistic_regression", "size_baseline", "constant_baseline"
+            "random_forest", "logistic_regression", "size_baseline", "constant_baseline",
+            "prior_churn_baseline",
         })
+        self.assertEqual(evaluation["comparisons"]["prior_churn_baseline"]["average_precision"], 1.0)
         self.assertAlmostEqual(evaluation["comparisons"]["constant_baseline"]["average_precision"], 0.25)
         self.assertEqual(evaluation["selection_policy"], "fixed_in_advance_not_selected_on_test")
         result = estimator.estimate_debt(metrics(21))

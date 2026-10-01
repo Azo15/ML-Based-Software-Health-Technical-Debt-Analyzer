@@ -65,7 +65,8 @@ def evaluate_repository(spec, repos_dir, max_commits, observation_commits):
     provenance = [
         {key: row[key] for key in [
             "commit_hash", "path", "future_bug_fix", "commit_sequence",
-            "label_observed_at_sequence", *estimator.features_col,
+            "label_observed_at_sequence", "change_churn", "prior_change_count",
+            "prior_churn", "history_lookback_commits", *estimator.features_col,
         ]} for row in rows
     ]
     fingerprint = hashlib.sha256(json.dumps(
@@ -76,6 +77,12 @@ def evaluate_repository(spec, repos_dir, max_commits, observation_commits):
         "mined_revisions": len(raw), "candidate_revisions": len(candidates),
         "excluded_invalid_or_empty": len(candidates) - len(rows),
         "dataset_sha256": fingerprint, "evaluation": estimator.evaluation,
+        "label_audit": [{
+            "commit_hash": row["commit_hash"], "path": row["path"],
+            "candidate_label": row["future_bug_fix"], "evidence": row["label_evidence"],
+            "observation_window_commits": row["observation_window_commits"],
+            "review_status": "unreviewed",
+        } for row in rows],
         "explanation": message,
     }
 
