@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CodeScope · Yazılım Sağlığı</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="CodeScope ana sayfa"
+        ><span class="brand-icon">⌘</span> CodeScope</a
+      >
+      <div class="workspace-label">ÇALIŞMA ALANIN</div>
+      <a class="nav-active" href="#new-scan">◈ <span>Proje analizi</span></a>
+      <div class="history-heading">
+        <span>SON ANALİZLER</span
+        ><button
+          id="refresh"
+          class="icon-button"
+          aria-label="Analiz geçmişini yenile"
+        >
+          ↻
+        </button>
+      </div>
+      <div id="history" class="history">
+        <p class="muted">Geçmiş yükleniyor…</p>
+      </div>
+      <div class="sidebar-foot">
+        <span class="dot"></span> Yerel çalışma alanı
+        <p>Kaynak kodun bu bilgisayarda kalır.</p>
+      </div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <span>Çalışma alanı <span class="crumb">/</span> Proje analizi</span
+        ><span class="pill">PYTHON · YEREL</span>
+      </header>
+      <section class="intro">
+        <div class="eyebrow">KODUNUN DURUMUNU ANLA</div>
+        <h1>Daha anlaşılır kod.<br /><span>Daha bilinçli kararlar.</span></h1>
+        <p>
+          Projenin bakım ihtiyaçlarını keşfet, dosyaları incele ve sonraki
+          adımını belirle.
+        </p>
+      </section>
+      <section
+        id="new-scan"
+        class="card scan-card"
+        aria-labelledby="scan-title"
+      >
+        <div class="section-heading">
+          <div>
+            <h2 id="scan-title">Yeni proje analizi</h2>
+            <p>Bilgisayarındaki bir Python Git deposuyla başla.</p>
+          </div>
+          <span class="step-badge">01 / ANALİZ</span>
+        </div>
+        <form id="scan-form">
+          <label for="repo">Proje klasörü</label>
+          <div class="input-row">
+            <input
+              id="repo"
+              name="repo"
+              required
+              maxlength="4096"
+              placeholder="C:\Users\kullanici\Desktop\projem"
+              autocomplete="off"
+            /><button id="start" class="primary" type="submit">
+              Analizi başlat <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <p class="hint">Git deposunun ana klasörünün tam yolunu yapıştır.</p>
+          <details class="advanced">
+            <summary>Analiz seçenekleri</summary>
+            <div class="options">
+              <label
+                >İncelenecek commit sayısı<input
+                  id="commits"
+                  type="number"
+                  min="1"
+                  max="1000"
+                  value="100"
+                  required /></label
+              ><label
+                >Gözlem penceresi<input
+                  id="window"
+                  type="number"
+                  min="1"
+                  max="200"
+                  value="10"
+                  required /></label
+              ><label
+                >Hariç tutulacak yollar<input
+                  id="excludes"
+                  placeholder="tests/*, examples/*"
+              /></label>
+            </div>
+            <p class="hint">
+              Hariç tutulan yollar mevcut dosya listesini etkiler; geçmiş eğitim
+              verisini değiştirmez.
+            </p>
+          </details>
+        </form>
+        <p id="form-error" class="error" role="alert" hidden></p>
+      </section>
+      <section id="job-panel" class="card job-panel" hidden aria-live="polite">
+        <div class="job-line">
+          <h2 id="job-title">Analiz hazırlanıyor</h2>
+          <span id="job-state" class="pill"></span>
+        </div>
+        <p id="job-description"></p>
+        <progress
+          id="job-progress"
+          aria-label="Geçerli analiz adımının ilerlemesi"
+        ></progress>
+      </section>
+      <section id="welcome" class="welcome">
+        <span class="welcome-icon">⌁</span>
+        <h2>İlk bakış, doğru başlangıç.</h2>
+        <p>
+          Analiz tamamlandığında dosya metrikleri, bakım önerileri<br />ve varsa
+          deneysel risk sıralaması burada görünecek.
+        </p>
+        <div class="welcome-tags">
+          <span>Karmaşıklık ölçümleri</span><span>Bakım önerileri</span
+          ><span>İndirilebilir rapor</span>
+        </div>
+      </section>
+      <section id="results" hidden>
+        <div class="results-heading">
+          <div>
+            <div class="eyebrow">ANALİZ SONUCU</div>
+            <h2 id="project-name"></h2>
+            <p id="scan-info" class="muted"></p>
+          </div>
+          <div class="downloads">
+            <a id="json-download" class="secondary">JSON indir ↓</a
+            ><a id="csv-download" class="secondary">CSV indir ↓</a>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="card stat">
+            <span>İncelenen dosya</span><strong id="file-count">0</strong
+            ><small>Mevcut Python dosyaları</small>
+          </div>
+          <div class="card stat">
+            <span>Bakım bulgusu</span><strong id="finding-count">0</strong
+            ><small>Gözden geçirilecek noktalar</small>
+          </div>
+          <div class="card stat">
+            <span>Atlanan dosya</span><strong id="skip-count">0</strong
+            ><small>Nedenleri aşağıda listelenir</small>
+          </div>
+        </div>
+        <div id="model-notice" class="notice"></div>
+        <section class="card files-card">
+          <div class="section-heading">
+            <div>
+              <h2>Dosyalara yakından bak</h2>
+              <p>Ayrıntıları ve önerileri görmek için bir dosya seç.</p>
+            </div>
+            <input
+              id="search"
+              type="search"
+              aria-label="Dosya adına göre filtrele"
+              placeholder="Dosya ara…"
+            />
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dosya</th>
+                  <th>Deneysel risk</th>
+                  <th>Kod satırı</th>
+                  <th>En yüksek karmaşıklık</th>
+                  <th>Bulgu</th>
+                </tr>
+              </thead>
+              <tbody id="file-rows"></tbody>
+            </table>
+          </div>
+          <p id="empty-files" class="empty-message" hidden>
+            Bu seçimde gösterilecek dosya yok.
+          </p>
+        </section>
+        <details class="card detail-section">
+          <summary>Atlanan dosyalar ve nedenleri</summary>
+          <ul id="skipped-list"></ul>
+        </details>
+        <details class="card detail-section">
+          <summary>Model değerlendirmesi</summary>
+          <p class="hint">
+            Skorlar hata olasılığı değildir. Ayrıntılı araştırma çıktıları
+            aşağıdadır.
+          </p>
+          <pre id="evaluation"></pre>
+        </details>
+      </section>
+      <footer>
+        CodeScope
+        <span>Yazılım sağlığı ve teknik borç analizi · Yerel önizleme</span>
+      </footer>
+    </main>
+    <dialog id="file-dialog">
+      <div class="dialog-top">
+        <span class="eyebrow">DOSYA İNCELEMESİ</span
+        ><button
+          id="close-dialog"
+          class="icon-button"
+          aria-label="Ayrıntıları kapat"
+        >
+          ✕
+        </button>
+      </div>
+      <h2 id="detail-path"></h2>
+      <p id="detail-metrics" class="muted"></p>
+      <h3>Bakım önerileri</h3>
+      <div id="detail-findings"></div>
+      <p class="hint">
+        Öneriler kural temellidir; değişiklik yapmadan önce dosyanın
+        sorumluluğunu ve testlerini incele.
+      </p>
+    </dialog>
+  </body>
+</html>

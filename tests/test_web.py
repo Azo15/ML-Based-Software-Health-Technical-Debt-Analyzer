@@ -77,6 +77,16 @@ class WebTests(unittest.TestCase):
             self.assertEqual(client.post("/api/scans", json={"repo_path": "x"}, headers={"Origin": "https://evil.example"}).status_code, 403)
             self.assertEqual(client.get("/api/health", headers={"Host": "evil.example"}).status_code, 400)
 
+    def test_dashboard_and_local_assets_are_served(self):
+        with self.client() as client:
+            page = client.get("/")
+            self.assertEqual(page.status_code, 200)
+            self.assertIn("Proje klasörü", page.text)
+            self.assertIn("script-src 'self'", page.headers["content-security-policy"])
+            self.assertEqual(client.get("/assets/app.js").status_code, 200)
+            self.assertEqual(client.get("/assets/style.css").status_code, 200)
+            self.assertEqual(client.get("/assets/unknown.js").status_code, 404)
+
     def test_unexpected_failure_is_redacted(self):
         with self.client() as client:
             job_id = client.post("/api/scans", json={"repo_path": "crash"}).json()["id"]
