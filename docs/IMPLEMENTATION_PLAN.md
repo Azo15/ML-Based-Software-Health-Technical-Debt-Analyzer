@@ -45,7 +45,9 @@ Build a Python API around the analysis core and background scan jobs. Add projec
 Phase 4.1 completed on Windows (2026-10-01): local FastAPI service, a bounded
 single-worker queue, durable SQLite reports, progress/error endpoints and report
 downloads. All 48 tests passed, including HTTP-to-analysis integration. See
-`LOCAL_API.md`. User-facing pages (4.2) and MVP acceptance (4.3) remain outstanding.
+`LOCAL_API.md`. Phase 4.2 implemented on 2026-10-02: Turkish project/results UI,
+scan history, file search/details and downloads; 49 tests passed and the real
+browser flow was checked. See `WEB_UI.md`. MVP acceptance (4.3) remains outstanding.
 
 ## Phase 5 — GitHub and CI integration
 

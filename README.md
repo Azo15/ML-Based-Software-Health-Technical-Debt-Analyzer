@@ -157,7 +157,8 @@ The default command analyzes all current tracked Python files. Fix-message label
 
 Bağımlılıkları yükledikten sonra `python -m web --port 8765` ile API'yi başlatın.
 `http://127.0.0.1:8765/docs` adresinde etkileşimli API belgesi bulunur.
-Proje ve sonuç ekranları Faz 4.2'de eklenecektir.
+Proje ve sonuç ekranları `http://127.0.0.1:8765/` adresindedir.
+Kullanım ve önizleme sınırları: [`docs/WEB_UI.md`](docs/WEB_UI.md).
 Launch the local API with `python -m web --port 8765`; interactive reference is at
 `http://127.0.0.1:8765/docs`. See [`docs/LOCAL_API.md`](docs/LOCAL_API.md) for job
 states, storage, request examples and restart behavior.

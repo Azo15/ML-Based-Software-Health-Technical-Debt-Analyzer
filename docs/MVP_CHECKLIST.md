@@ -18,6 +18,7 @@ scores and still provide maintainability findings when no model can be trained.
    Completed on Windows, 2026-10-01; see `LOCAL_API.md`.
 4. Phase 4.2: browser pages for adding a local project, starting a scan, viewing
    ranked files, opening file metrics/findings and downloading JSON/CSV reports.
+   Implemented and desktop browser-checked, 2026-10-02; see `WEB_UI.md`.
 5. Phase 4.3 — **MVP ready for user testing**: complete the full journey below on
    Windows, provide a repeatable launch command, and verify empty/invalid projects
    and small datasets show understandable messages.
