@@ -33,6 +33,11 @@ MVP delivery order; the browser acceptance milestone is Phase 4.3.
 
 Analyze the current state of every selected Python file. Show separate bug-risk and maintainability results, explanations, and uncertainty. Support filters, JSON/CSV exports, clear exit codes, and useful errors for empty or small datasets. Exit gate: documented CLI commands and end-to-end fixture tests pass.
 
+Completed on Windows (2026-10-01): a shared analysis service, current-file filters,
+partial/empty report states, structured errors, skipped-file reasons, Git state,
+progress events and compatible JSON/CSV exports. All 42 tests pass. The contract
+and exit-code semantics are documented in `ANALYSIS_SERVICE.md`. Phase 4.1 is next.
+
 ## Phase 4 — API and web panel
 
 Build a Python API around the analysis core and background scan jobs. Add project overview, ranked file list, file history, findings, and model evaluation screens. Keep data local by default. Exit gate: a user can add a local repository, run a scan, inspect a file, and download a report through the UI.

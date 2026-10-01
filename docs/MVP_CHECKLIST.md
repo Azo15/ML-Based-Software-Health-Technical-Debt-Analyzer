@@ -12,6 +12,7 @@ scores and still provide maintainability findings when no model can be trained.
    independent validation and label-quality studies remain research deliverables.
 2. Phase 3 completion: extract a reusable analysis service from the CLI, record
    skipped files and errors, and stabilize the report structure for the UI.
+   Completed on Windows, 2026-10-01; see `ANALYSIS_SERVICE.md`.
 3. Phase 4.1: local API and background jobs with progress, error states and saved
    reports; a failed scan must not prevent the next scan.
 4. Phase 4.2: browser pages for adding a local project, starting a scan, viewing

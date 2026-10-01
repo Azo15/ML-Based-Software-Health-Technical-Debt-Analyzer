@@ -155,6 +155,14 @@ The default command analyzes all current tracked Python files. Fix-message label
 
 ## Report export / Rapor dışa aktarma
 
+Current-file filters / Mevcut dosya filtreleri:
+`python -m cli.main analyze <repo> --exclude="tests/*" --exclude="examples/*"`
+
+JSON raporu artık atlanan dosyaları, nedenlerini ve analiz durumunu içerir.
+Filtreler mevcut dosya listesini etkiler; geçmiş eğitim verisini değiştirmez.
+The shared analysis service, report fields and exit codes are documented in
+[`docs/ANALYSIS_SERVICE.md`](docs/ANALYSIS_SERVICE.md).
+
 Pass `--output report.json` or `--output report.csv` to `analyze`. The file must not
 already exist. JSON includes the model evaluation, all file metrics, and complete
 maintainability findings. CSV has one summary row per current Python file.
