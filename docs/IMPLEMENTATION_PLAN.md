@@ -23,8 +23,11 @@ Mine recent commits deterministically, preserve repository-relative paths and re
 Create a file-version dataset with a declared future observation window. Compare size/churn baselines, logistic regression, and Random Forest. Split chronologically; check file- and repository-level leakage. Report class counts, precision, recall, PR AUC, Recall at K, and calibration. Do not output a probability unless the model and calibration are valid. Exit gate: repeatable experiment on multiple public Python repositories and an untouched later test period.
 
 Progress (2026-10-01): fixed holdout comparisons and a reproducible, commit-pinned
-Click/Requests pilot are implemented. See `PILOT_RESULTS.md`. This phase remains
-open for churn features, label auditing, calibration and independent validation.
+Click/Requests pilot are implemented. Past-only churn metrics, a churn baseline
+and traceable label evidence are available; `LABEL_AUDIT_PILOT.md` records an
+initial two-example inspection. This phase remains open for a formal label audit,
+calibration and independent validation. See `MVP_CHECKLIST.md` for the local web
+MVP delivery order; the browser acceptance milestone is Phase 4.3.
 
 ## Phase 3 — CLI and reports
 
