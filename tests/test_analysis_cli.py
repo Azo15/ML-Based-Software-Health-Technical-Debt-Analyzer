@@ -10,6 +10,7 @@ import unittest
 from typer.testing import CliRunner
 
 from cli.main import app
+from analysis.service import AnalysisError, analyze_repository
 
 
 class AnalysisCliTests(unittest.TestCase):
@@ -82,6 +83,53 @@ class AnalysisCliTests(unittest.TestCase):
             rows = list(csv.DictReader(report_file))
         self.assertEqual({row["path"] for row in rows}, {"src/a.py", "tests/a.py"})
         self.assertTrue(all(row["risk_score"] == "" for row in rows))
+
+    def test_service_reports_invalid_empty_and_missing_files(self):
+        self.commit_file("empty.py", "", "add empty module")
+        (self.repo / "src/a.py").write_text("def broken(:\n", encoding="utf-8")
+        (self.repo / "tests/a.py").unlink()
+        self.commit_file("good.py", "raise RuntimeError('must never execute')\n", "add example")
+        events = []
+        report = analyze_repository(self.repo, max_commits=3, observation_commits=1, progress=events.append)
+        self.assertEqual(report["status"], "partial")
+        self.assertEqual({item["path"] for item in report["files"]}, {"good.py"})
+        self.assertEqual({item["reason"] for item in report["skipped_files"]},
+                         {"invalid_python", "empty_file", "missing_file"})
+        self.assertEqual(report["summary"]["analyzed_files"], 1)
+        self.assertTrue(report["repository_state"]["tracked_changes"])
+        self.assertEqual(events[-1]["stage"], "completed")
+        json.dumps(report, allow_nan=False)
+
+    def test_filters_only_change_current_file_selection(self):
+        normal = analyze_repository(self.repo, max_commits=3, observation_commits=1)
+        filtered = analyze_repository(self.repo, max_commits=3, observation_commits=1, excludes=["tests/*"])
+        self.assertEqual([row["path"] for row in filtered["files"]], ["src/a.py"])
+        self.assertEqual(filtered["status"], "complete")
+        self.assertEqual(filtered["summary"]["training_revisions"], normal["summary"]["training_revisions"])
+        self.assertEqual(filtered["skipped_files"][0]["reason"], "excluded_by_filter")
+
+    def test_empty_result_is_exported_with_nonzero_exit(self):
+        output = self.repo / "empty.json"
+        result = CliRunner().invoke(app, ["analyze", str(self.repo), "--exclude", "*", "--output", str(output)])
+        self.assertEqual(result.exit_code, 1, result.output)
+        report = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "empty")
+        self.assertEqual(report["files"], [])
+        self.assertEqual(len(report["skipped_files"]), 2)
+
+    def test_service_rejects_nested_folder_and_invalid_options(self):
+        with self.assertRaises(AnalysisError) as nested:
+            analyze_repository(self.repo / "src")
+        self.assertEqual(nested.exception.code, "repository_root_required")
+        with self.assertRaises(AnalysisError) as options:
+            analyze_repository(self.repo, max_commits=0)
+        self.assertEqual(options.exception.code, "invalid_options")
+
+    def test_non_git_directory_has_a_structured_error(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaises(AnalysisError) as error:
+                analyze_repository(folder)
+        self.assertEqual(error.exception.code, "git_error")
 
 
 if __name__ == "__main__":
