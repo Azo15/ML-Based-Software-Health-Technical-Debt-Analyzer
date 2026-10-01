@@ -22,6 +22,10 @@ Mine recent commits deterministically, preserve repository-relative paths and re
 
 Create a file-version dataset with a declared future observation window. Compare size/churn baselines, logistic regression, and Random Forest. Split chronologically; check file- and repository-level leakage. Report class counts, precision, recall, PR AUC, Recall at K, and calibration. Do not output a probability unless the model and calibration are valid. Exit gate: repeatable experiment on multiple public Python repositories and an untouched later test period.
 
+Progress (2026-10-01): fixed holdout comparisons and a reproducible, commit-pinned
+Click/Requests pilot are implemented. See `PILOT_RESULTS.md`. This phase remains
+open for churn features, label auditing, calibration and independent validation.
+
 ## Phase 3 — CLI and reports
 
 Analyze the current state of every selected Python file. Show separate bug-risk and maintainability results, explanations, and uncertainty. Support filters, JSON/CSV exports, clear exit codes, and useful errors for empty or small datasets. Exit gate: documented CLI commands and end-to-end fixture tests pass.

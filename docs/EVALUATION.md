@@ -23,8 +23,9 @@ calibrated probabilities. Models are not selected or tuned using the test period
 These are within-repository revision comparisons. The same file can appear at
 different times, so the results do not establish performance on unseen files or
 repositories. Labels remain noisy commit-message candidates. Churn baselines,
-calibration, multiple-repository experiments, confidence intervals, and independent
-external validation remain Phase 2 work. No measured general accuracy is claimed.
+calibration, confidence intervals, and independent external validation remain
+Phase 2 work. The reproducible two-repository pilot is documented in
+`EXPERIMENTS.md` and `PILOT_RESULTS.md`. No general accuracy is claimed.
 
 Verification: `python -m unittest discover -s tests -q` exercises the holdout,
 observation-window exclusion, comparison outputs, and manually checked metrics.
