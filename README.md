@@ -1,5 +1,9 @@
 # 🩺 ML-Based Software Health & Technical Debt Analyzer 
 
+**CodeScope yerel web MVP'si denemeye hazır.** Windows kurulumu, `start.cmd` ile
+başlatma ve kullanım adımları için [hızlı başlangıç](docs/QUICKSTART_TR.md).
+Doğrulama kapsamı ve sınırlar: [MVP kabul kaydı](docs/MVP_ACCEPTANCE.md).
+
 Modern yazılım projelerinde teknik borcu (technical debt) tespit etmek ve yönetmek, kodun uzun vadeli sürdürülebilirliği için kritik bir öneme sahiptir. **ML-Based Software Health & Technical Debt Analyzer**, Python projelerinin Git geçmişini analiz eden, karmaşıklık metriklerini çıkaran ve makine öğrenmesi algoritmaları kullanarak kodun sağlık durumunu otomatik olarak değerlendiren profesyonel bir komut satırı (CLI) aracıdır.
 
 ![CLI Output](https://github.com/user-attachments/assets/911260f0-07f1-4f93-b3f3-338c646e7ac9)
@@ -153,7 +157,25 @@ python -m cli.main analyze "C:\Path\To\Target\Repo" --file "src/core.py"
 
 The default command analyzes all current tracked Python files. Fix-message labels are weak candidates, and insufficient class diversity leaves the risk score unavailable. See `docs/IMPLEMENTATION_PLAN.md` for the remaining research and product phases.
 
+## Local API / Yerel API (Faz 4.1)
+
+Bağımlılıkları yükledikten sonra `python -m web --port 8765` ile API'yi başlatın.
+`http://127.0.0.1:8765/docs` adresinde etkileşimli API belgesi bulunur.
+Proje ve sonuç ekranları `http://127.0.0.1:8765/` adresindedir.
+Kullanım ve önizleme sınırları: [`docs/WEB_UI.md`](docs/WEB_UI.md).
+Launch the local API with `python -m web --port 8765`; interactive reference is at
+`http://127.0.0.1:8765/docs`. See [`docs/LOCAL_API.md`](docs/LOCAL_API.md) for job
+states, storage, request examples and restart behavior.
+
 ## Report export / Rapor dışa aktarma
+
+Current-file filters / Mevcut dosya filtreleri:
+`python -m cli.main analyze <repo> --exclude="tests/*" --exclude="examples/*"`
+
+JSON raporu artık atlanan dosyaları, nedenlerini ve analiz durumunu içerir.
+Filtreler mevcut dosya listesini etkiler; geçmiş eğitim verisini değiştirmez.
+The shared analysis service, report fields and exit codes are documented in
+[`docs/ANALYSIS_SERVICE.md`](docs/ANALYSIS_SERVICE.md).
 
 Pass `--output report.json` or `--output report.csv` to `analyze`. The file must not
 already exist. JSON includes the model evaluation, all file metrics, and complete

@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "protocol": "independent_within_repository_temporal_holdouts",
+  "manifest": {
+    "schema_version": 1,
+    "max_commits": 200,
+    "observation_commits": 10,
+    "repositories": [
+      {
+        "name": "click",
+        "url": "https://github.com/pallets/click.git",
+        "commit": "06b2a678741131fd577ce170e23e5ca0aeba0309"
+      },
+      {
+        "name": "requests",
+        "url": "https://github.com/psf/requests.git",
+        "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60"
+      }
+    ]
+  },
+  "analyzer_commit": "09ffb7e38827fa2cf5a6701a649eeba0eb1c0ea8",
+  "analyzer_dirty": false,
+  "python": "3.12.14",
+  "dependencies": {
+    "scikit-learn": "1.9.1",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "PyDriller": "2.12",
+    "radon": "6.0.1",
+    "lizard": "1.24.0"
+  },
+  "repositories": [
+    {
+      "name": "click",
+      "url": "https://github.com/pallets/click.git",
+      "commit": "06b2a678741131fd577ce170e23e5ca0aeba0309",
+      "shallow": true,
+      "available_commits": 1521,
+      "mined_revisions": 201,
+      "candidate_revisions": 166,
+      "excluded_invalid_or_empty": 0,
+      "dataset_sha256": "ee991d2dcfd795dfe1b3a77488118e106b4317d5bf4c8814fc82472c403f0393",
+      "evaluation": {
+        "status": "evaluated",
+        "selected_model": "random_forest",
+        "selection_policy": "fixed_in_advance_not_selected_on_test",
+        "calibration": "not_calibrated",
+        "train_revisions": 85,
+        "test_revisions": 33,
+        "purged_revisions": 48,
+        "train_positives": 18,
+        "test_positives": 9,
+        "train_commits": [
+          "c3535905c77a29afc84861b29d3ad366ce5451bd",
+          "b7e5fd4cc7de70280eccd39f2bb956df617e5519",
+          "ddf20d0673788ebe8ec28b6031a24a36cba92115",
+          "82f377c547e1867d073f02bb8f476214d07e245b",
+          "745464765a3fc9ddd5f9e445e5a2ca37efd63237",
+          "77bd81f3f0c9d7fc8e1ca83f641c41489c508991",
+          "9a2d169fcf5c3cce7b0cd5971ca2786e1f72c210",
+          "e39679ab8d0cf0a8ce203a881c5ae7f44fadaebc",
+          "d5da63588cdef9bf16596d40ea39d1e69954e4f5",
+          "bb0cd175d574a06fb4a5a7276ebe9570bb5c083d",
+          "ea76281c3f5ad062e9f24eb5deaa961ac6a5c0e7",
+          "9207bdc073181b0699938a7d7b4d0b7dde23fe4f",
+          "aef225df47377a1bc3d967327b501f577dd5462c",
+          "7eb57cff7cd292fbd526eaf861c8f945ddeb07a3",
+          "88b8e313f7ec09ddd16f33bded0b4c39d7935f58",
+          "665736bc85a19a7a2357c071394b4a545617faa3",
+          "684b3f5b5150761ec1c930bef300eb6169f483d8",
+          "9f9ae4538cea5ff672f6da51b2df184a4cd4304c",
+          "bff780ff9df7a8d0a271db2f80c17c7be32dc2a1",
+          "10f78cdb1df9874a8aa1757102ade4efa6a54732",
+          "399919f740bfd26cb30d544877fafd03cfcd9091",
+          "051bb0f30b545cf7426deef819811815297c2798",
+          "762c97eef7c1b3779678992f26a553a2a8c80793",
+          "1557e265222c431b1e4d6c4dd6754006ed10dc02",
+          "bec59289d8cf9b9b4010642b2fee483e5f8eeefc",
+          "748a34d01e0f4f2e5f75e293c1dd8480b16c2068",
+          "c4a6b57bb8a79556ceb6a91b1e756bbaf896ffae",
+          "27b3ee2633f80aeb04d6e15c2fb3c91542efa32b",
+          "1ac08db953684e10ed97adbbda81381efd82ce09",
+          "6f85d26dcd50c1745e81040ed4f2b61f8bf293cf",
+          "93ba0075f4881b858b61f89a753c7c10e330027e",
+          "30749b45c50f4811a3487fc9d11da2b7afc6007f",
+          "9f9b149ea30287b4977b800a024ee68144b8c869",
+          "13f075c4bd2d1343eaac528994165750671da351",
+          "a391797d00d2ef32ebc4fb0034462a2ec5e6d3d4",
+          "182944f90a0103b87570dbc5a55eff873ca9a4c2",
+          "1103c5cac2a9336dad3b4b5ce1a25a0bcff49ec0",
+          "18400b2495347c684c8182f775b4aaec0838cc0e",
+          "700798252a509ca57bc7a12f7aa7fd67f9f8fd25",
+          "47cc96fb1fcaca88f55c1937afc50ba518d0ca8a",
+          "c52f43c8ba734545b222af36ac35d87579031870",
+          "07c909f23f0f83b5ca137c167b9a134d66201f67",
+          "3495fba163dd61dea837cd557095df6c21515ac8"
+        ],
+        "test_commits": [
+          "0f4738df88e3ea47c40a4a442103596a61cfee79",
+          "047adef258fc25566163ffc3efd14effc0ef7352",
+          "a2ac5839f29f61cf7f3f229c67b97d07988e479b",
+          "f316d5cb3aa89b57c14aee54da6ac9062ac5bec4",
+          "1f9cd54f686eb343cec714230ad825ce972739ab",
+          "bc32a92cd2ae77afb2352f79ebdf00997f35d333",
+          "9835b0f7612d1b1ea180a975fd6d24cf16791ba8",
+          "a6256bfb5971d5e58585fe7b6c656134e1ade5a4",
+          "a1d87858abd77fa8e3ffc204670ccd75b96c4781",
+          "ce57b87ac490ac8744491658d092bd86f571bf58",
+          "f58ca3e81424a35626c8a475eb59ab95589008ce",
+          "94f17e276fbdd7348b88b05170923ecacb7b32bf",
+          "fc518e41218b447e875fe27244ae692c269bcb77",
+          "394088a09a210c152a4295e4a493ffdebd4c5047"
+        ],
+        "comparisons": {
+          "random_forest": {
+            "average_precision": 0.38778093675118847,
+            "inspection_k": 7,
+            "recall_at_k": 0.3333333333333333,
+            "precision_at_k": 0.42857142857142855,
+            "precision": 0.3333333333333333,
+            "recall": 0.2222222222222222,
+            "f1": 0.26666666666666666
+          },
+          "logistic_regression": {
+            "average_precision": 0.6079891785774139,
+            "inspection_k": 7,
+            "recall_at_k": 0.5555555555555556,
+            "precision_at_k": 0.7142857142857143,
+            "precision": 0.5,
+            "recall": 0.2222222222222222,
+            "f1": 0.3076923076923077
+          },
+          "size_baseline": {
+            "average_precision": 0.4133375339257692,
+            "inspection_k": 7,
+            "recall_at_k": 0.1111111111111111,
+            "precision_at_k": 0.14285714285714285
+          },
+          "constant_baseline": {
+            "average_precision": 0.2727272727272727,
+            "inspection_k": 7,
+            "recall_at_k": 0.0,
+            "precision_at_k": 0.0
+          }
+        }
+      },
+      "explanation": "Time holdout: 85 train and 33 test revisions; 43 train and 14 test commits after excluding labels observed in the test period.\nAverage precision: 0.388\n              precision    recall  f1-score   support\n\n           0       0.74      0.83      0.78        24\n           1       0.33      0.22      0.27         9\n\n    accuracy                           0.67        33\n   macro avg       0.54      0.53      0.53        33\nweighted avg       0.63      0.67      0.64        33\n\nFixed holdout comparisons (top 20% inspection budget):\nrandom_forest: AP=0.388; Recall@7=0.333\nlogistic_regression: AP=0.608; Recall@7=0.556\nsize_baseline: AP=0.413; Recall@7=0.111\nconstant_baseline: AP=0.273; Recall@7=0.000\nRandom Forest remains the predefined model; the test set does not select a winner."
+    },
+    {
+      "name": "requests",
+      "url": "https://github.com/psf/requests.git",
+      "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+      "shallow": true,
+      "available_commits": 525,
+      "mined_revisions": 130,
+      "candidate_revisions": 103,
+      "excluded_invalid_or_empty": 0,
+      "dataset_sha256": "632d0553b2d529a85a2ff375a24e24a9bcf8a2289c965dc46f3d6a6fabc7c063",
+      "evaluation": {
+        "status": "evaluated",
+        "selected_model": "random_forest",
+        "selection_policy": "fixed_in_advance_not_selected_on_test",
+        "calibration": "not_calibrated",
+        "train_revisions": 57,
+        "test_revisions": 33,
+        "purged_revisions": 13,
+        "train_positives": 16,
+        "test_positives": 11,
+        "train_commits": [
+          "0e322af87745eff34caffe4df68456ebc20d9068",
+          "4e383642a9ebb82a67eaeed199d0fbbb31991e3c",
+          "01353d3b4afe3afa838f8f5c08e5f30a5b50cb05",
+          "15e1f17bb6f3f978787dd23da0268388148bc3d5",
+          "92f10cec5b3223e90c186b7a04306564cde050dc",
+          "314e7c9c701ddbeb6c26ae357a132045709d47f1",
+          "f519bbae3346b4bf0ff866e0659b7efbcf016eb1",
+          "d96f9982a276c73ab078b255c94397cf4d7f6cc2",
+          "a2fd25ff34b66ef71b54dfc90e09a4e4152357f6",
+          "5d31ddbf7b3f512dd3c61952d2c16e980a2b7dc1",
+          "c65c780849563c891f35ffc98d3198b71011c012",
+          "c799b8167a13416833ad3b4f3298261a477e826f",
+          "a7e1c745dc23c18e836febd672416ed0c5d8d8ae",
+          "96ba401c1296ab1dda74a2365ef36d88f7d144ef",
+          "7bc45877a86192af77645e156eb3744f95b47dae",
+          "5b4b64c3467fd7a3c03f91ee641aaa348b6bed3b",
+          "821770e822a20a21b207b3907ea83878bda1d396",
+          "3f07f990ac74f1e1691ba17ef8c14007f05846ab",
+          "90fee0876aea97c639b3bf698d83a12876d2f160",
+          "d58d8aa2f45c3575268d6d5250745ef69f9cf8b7",
+          "2edca11103c1c27dd8b572dab544b7f48cf3b446",
+          "b25c87d7cb8d6a18a37fa12442b5f883f9e41741",
+          "f8bec2f7ca9d7c03981a12ff8866a9b3923f1699",
+          "cb2c800518423e0042789ab09f8f6e719428a444",
+          "0c2bbe73982a70623fb81bf16b2507ea0ca80b99",
+          "47914226c2968802f2cdee3f6f0f6e06e4472f64",
+          "5f338446f9eabd956e7e132668f330d9de4fc368",
+          "5e7cb71cd719394f8fc56ea55da3f58bb22ae2b6",
+          "4bd79e397304d46dfccd76f36c07f66c0295ff82",
+          "b2a1d33f571518ca9a6148e7da787cc5827f897a",
+          "e331a288f369973f5de0ec8901c94cae4fa87286",
+          "66d21cb07bd6255b1280291c4fafb71803cdb3b7",
+          "bc04dfd6dad4cb02cd92f5daa81eb562d280a761",
+          "389eea58dfb2f2ee096421a812e3af29c0298951",
+          "bc7dd0fc4d56e808bcdd85ac2d797b3107c89259"
+        ],
+        "test_commits": [
+          "561e4b6889f53584c39a67f8794c53a414f68481",
+          "f7822f7c4185b45527f171095c4edf8777efe51b",
+          "fd628095d7b9ddbf3e987d8a4bf0e6062768916f",
+          "25340ebad09a38e0748aeb26232102022a03ec94",
+          "b684dcb9bbf3aa557d1238e72062c4a29737dd1c",
+          "3816cfa1abd42dca21b9e837f26c59b246016aaf",
+          "a4f9a5999bdb9bf2d6e7c8aa973b28cacb17134f",
+          "86b378d3f60f828daa13ca50aa82e287ff7b66b4",
+          "0b401c76b6e80a4eecf3c690085b2553f6e261ca",
+          "6404f345e562d962abe6700a1c357ec1e7e18232",
+          "2144213c307691710c9d665700860fc4993c3035",
+          "5691f596134c2feb121e595c77a0178921fcce61"
+        ],
+        "comparisons": {
+          "random_forest": {
+            "average_precision": 0.45008336958097717,
+            "inspection_k": 7,
+            "recall_at_k": 0.09090909090909091,
+            "precision_at_k": 0.14285714285714285,
+            "precision": 0.3333333333333333,
+            "recall": 0.09090909090909091,
+            "f1": 0.14285714285714285
+          },
+          "logistic_regression": {
+            "average_precision": 0.41470278733124577,
+            "inspection_k": 7,
+            "recall_at_k": 0.2727272727272727,
+            "precision_at_k": 0.42857142857142855,
+            "precision": 0.42857142857142855,
+            "recall": 0.2727272727272727,
+            "f1": 0.3333333333333333
+          },
+          "size_baseline": {
+            "average_precision": 0.542340700235437,
+            "inspection_k": 7,
+            "recall_at_k": 0.36363636363636365,
+            "precision_at_k": 0.5714285714285714
+          },
+          "constant_baseline": {
+            "average_precision": 0.3333333333333333,
+            "inspection_k": 7,
+            "recall_at_k": 0.2727272727272727,
+            "precision_at_k": 0.42857142857142855
+          }
+        }
+      },
+      "explanation": "Time holdout: 57 train and 33 test revisions; 35 train and 12 test commits after excluding labels observed in the test period.\nAverage precision: 0.450\n              precision    recall  f1-score   support\n\n           0       0.67      0.91      0.77        22\n           1       0.33      0.09      0.14        11\n\n    accuracy                           0.64        33\n   macro avg       0.50      0.50      0.46        33\nweighted avg       0.56      0.64      0.56        33\n\nFixed holdout comparisons (top 20% inspection budget):\nrandom_forest: AP=0.450; Recall@7=0.091\nlogistic_regression: AP=0.415; Recall@7=0.273\nsize_baseline: AP=0.542; Recall@7=0.364\nconstant_baseline: AP=0.333; Recall@7=0.273\nRandom Forest remains the predefined model; the test set does not select a winner."
+    }
+  ]
+}

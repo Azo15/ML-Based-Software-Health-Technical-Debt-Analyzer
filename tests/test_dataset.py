@@ -60,6 +60,15 @@ class FutureFixDatasetTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_future_fix_dataset([], observation_commits=0)
 
+    def test_rename_chain_preserves_future_fix_evidence(self):
+        rows = [revision("3", "new.py", "fixed", fix=True),
+                revision("2", "new.py", "broken", old_path="old.py"),
+                revision("1", "old.py", "broken")]
+        result = build_future_fix_dataset(rows, observation_commits=2)
+        self.assertEqual(result[0]["future_bug_fix"], 1)
+        self.assertEqual(result[0]["label_evidence"][0]["commit_hash"], "3")
+        self.assertEqual(result[0]["observation_window_commits"], ["2", "3"])
+
 
 if __name__ == "__main__":
     unittest.main()

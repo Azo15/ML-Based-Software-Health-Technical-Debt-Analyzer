@@ -22,13 +22,35 @@ Mine recent commits deterministically, preserve repository-relative paths and re
 
 Create a file-version dataset with a declared future observation window. Compare size/churn baselines, logistic regression, and Random Forest. Split chronologically; check file- and repository-level leakage. Report class counts, precision, recall, PR AUC, Recall at K, and calibration. Do not output a probability unless the model and calibration are valid. Exit gate: repeatable experiment on multiple public Python repositories and an untouched later test period.
 
+Progress (2026-10-01): fixed holdout comparisons and a reproducible, commit-pinned
+Click/Requests pilot are implemented. Past-only churn metrics, a churn baseline
+and traceable label evidence are available; `LABEL_AUDIT_PILOT.md` records an
+initial two-example inspection. This phase remains open for a formal label audit,
+calibration and independent validation. See `MVP_CHECKLIST.md` for the local web
+MVP delivery order; the browser acceptance milestone is Phase 4.3.
+
 ## Phase 3 — CLI and reports
 
 Analyze the current state of every selected Python file. Show separate bug-risk and maintainability results, explanations, and uncertainty. Support filters, JSON/CSV exports, clear exit codes, and useful errors for empty or small datasets. Exit gate: documented CLI commands and end-to-end fixture tests pass.
 
+Completed on Windows (2026-10-01): a shared analysis service, current-file filters,
+partial/empty report states, structured errors, skipped-file reasons, Git state,
+progress events and compatible JSON/CSV exports. All 42 tests pass. The contract
+and exit-code semantics are documented in `ANALYSIS_SERVICE.md`. Phase 4.1 is next.
+
 ## Phase 4 — API and web panel
 
 Build a Python API around the analysis core and background scan jobs. Add project overview, ranked file list, file history, findings, and model evaluation screens. Keep data local by default. Exit gate: a user can add a local repository, run a scan, inspect a file, and download a report through the UI.
+
+Phase 4.1 completed on Windows (2026-10-01): local FastAPI service, a bounded
+single-worker queue, durable SQLite reports, progress/error endpoints and report
+downloads. All 48 tests passed, including HTTP-to-analysis integration. See
+`LOCAL_API.md`. Phase 4.2 implemented on 2026-10-02: Turkish project/results UI,
+scan history, file search/details and downloads; 49 tests passed and the real
+browser flow was checked. See `WEB_UI.md`. Phase 4.3 local MVP acceptance completed
+on Windows on 2026-10-04: 51 passing tests, fresh environment, launcher, empty/error
+flows, browser exports, responsive layout and basic keyboard checks. See
+`MVP_ACCEPTANCE.md`. This is not a production or scientific-validation certification.
 
 ## Phase 5 — GitHub and CI integration
 

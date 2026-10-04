@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "max_commits": 200,
+  "observation_commits": 10,
+  "repositories": [
+    {"name": "click", "url": "https://github.com/pallets/click.git", "commit": "06b2a678741131fd577ce170e23e5ca0aeba0309"},
+    {"name": "requests", "url": "https://github.com/psf/requests.git", "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60"}
+  ]
+}
