@@ -24,6 +24,8 @@ const reasons = {
   invalid_python: "Python sözdizimi geçersiz",
 };
 const errors = {
+  empty_history:
+    "Bu Git deposunda henüz commit yok. Önce ilk commit’i oluşturup yeniden dene.",
   missing_repository: "Proje klasörü bulunamadı. Tam klasör yolunu kontrol et.",
   git_error: "Bu klasör bir Git deposu değil veya Git tarafından okunamıyor.",
   repository_root_required: "Git deposunun ana klasörünü seç.",
@@ -104,6 +106,7 @@ async function selectJob(id) {
   $("job-panel").hidden = false;
   $("form-error").hidden = true;
   text("job-title", "Analiz yükleniyor…");
+  text("job-state", "Yükleniyor");
   text("job-description", "");
   $("job-progress").hidden = false;
   $("job-progress").removeAttribute("value");

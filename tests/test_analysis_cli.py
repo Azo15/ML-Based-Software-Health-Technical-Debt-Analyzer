@@ -131,6 +131,24 @@ class AnalysisCliTests(unittest.TestCase):
                 analyze_repository(folder)
         self.assertEqual(error.exception.code, "git_error")
 
+    def test_repository_without_commits_has_actionable_error(self):
+        with tempfile.TemporaryDirectory() as folder:
+            subprocess.check_call(["git", "init", "-q", folder])
+            with self.assertRaises(AnalysisError) as error:
+                analyze_repository(folder)
+            self.assertEqual(error.exception.code, "empty_history")
+
+    def test_readme_only_repository_returns_empty_report(self):
+        with tempfile.TemporaryDirectory() as folder:
+            subprocess.check_call(["git", "init", "-q", folder])
+            Path(folder, "README.md").write_text("Example\n", encoding="utf-8")
+            subprocess.check_call(["git", "-C", folder, "add", "README.md"])
+            subprocess.check_call(["git", "-C", folder, "commit", "-q", "-m", "initial"], env=self.env)
+            report = analyze_repository(folder)
+            self.assertEqual(report["status"], "empty")
+            self.assertEqual(report["files"], [])
+            self.assertEqual(report["summary"]["analyzed_files"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

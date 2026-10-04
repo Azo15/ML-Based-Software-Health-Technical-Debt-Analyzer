@@ -80,7 +80,12 @@ def analyze_repository(repo_path, *, max_commits=100, observation_commits=10,
     top = Path(_git(root, "rev-parse", "--show-toplevel").decode("utf-8").strip()).resolve()
     if top != root:
         raise AnalysisError("repository_root_required", "Select the Git repository root folder")
-    head = _git(root, "rev-parse", "HEAD").decode().strip()
+    try:
+        head = _git(root, "rev-parse", "--verify", "--quiet", "HEAD").decode().strip()
+    except AnalysisError as exc:
+        if isinstance(exc.__cause__, subprocess.CalledProcessError) and exc.__cause__.returncode == 1:
+            raise AnalysisError("empty_history", "This Git repository has no commits yet. Create an initial commit before analyzing.") from exc
+        raise
     dirty = bool(_git(root, "status", "--porcelain", "--untracked-files=no").strip())
     current, skipped = _select_files(root, file_path, excludes)
     analyzer = MetricsAnalyzer()
