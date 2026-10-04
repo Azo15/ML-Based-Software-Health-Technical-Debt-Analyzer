@@ -1,5 +1,31 @@
 # Phase 4.2 — browser interface
 
+## Studio refinement — 2026-10-04
+
+The local dashboard now uses a graphite sidebar, warm paper surfaces and copper
+accents. An original, decorative analysis-flow panel describes the pipeline;
+it is not a live chart or a claim about model performance. The empty workspace
+explains the three-step journey. All styling remains local with system fonts.
+The external codescope.dev site was used only as a visual reference; no source,
+logos, images, copy or globe animation were reused.
+
+The file toolbar adds findings-only filtering and descending findings/complexity
+sorting, plus alphabetical or original report order. Search combines with the
+filter. The visible count announces the selection; these controls do not change
+the saved report or exports. Selecting a different report resets the controls.
+Keyboard focus styles, a skip link, reduced-motion support, an accessible native
+dialog and horizontal table scrolling support keyboard and narrow-screen use.
+
+Verification: 51 Python tests passed; frontend formatting passed. In the browser,
+a real saved report filtered from 28 to 7 files, complexity sorted descending,
+an unmatched search returned zero rows, and the filtered CSV still contained all
+28 files. The detail dialog opened and Escape closed it at 390 x 844. The page
+had no horizontal overflow (375px scroll width in a 390px viewport). Desktop
+visual inspection and browser console checks passed. This is not a complete
+assistive-technology audit. Public GitHub import remains the next Phase 5 step.
+
+## Original interface scope
+
 Start with `python -m web --port 8765`, then open `http://127.0.0.1:8765/`.
 The local UI is branded CodeScope. It uses locally served HTML, CSS and JavaScript;
 there are no CDN fonts, external scripts or separate frontend build requirements.
