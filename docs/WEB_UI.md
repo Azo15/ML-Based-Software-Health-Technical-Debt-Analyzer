@@ -1,5 +1,28 @@
 # Phase 4.2 — browser interface
 
+## Emerald glass refinement — 2026-10-04
+
+The current theme supersedes the copper palette below: dark emerald surfaces,
+translucent cards, backdrop blur and pale green controls. Three decorative code
+streams contain static Python/JavaScript, JSON/XML and GET/POST examples. They
+are illustrative, not actual requests or source code from scanned projects.
+
+`atmosphere.css` and `atmosphere.js` isolate the visual layer from scan logic.
+The fixed background does not receive pointer input. A soft radial light follows
+the mouse through one scheduled animation frame per batch of pointer events;
+there is no perpetual JavaScript render loop. CSS transforms animate the three
+streams. Hidden tabs pause them. Touch/coarse pointers use a static background.
+Reduced-motion preferences disable the effect; a visible pause button also saves
+the user's choice locally, with a fallback when storage is unavailable. No new
+external dependencies, CDN assets or CSP exceptions were introduced.
+
+Validation: 7 web/API tests passed, formatting and diff checks passed. Browser
+checks confirmed pointer coordinates/light activation, pause state and persistence
+after reload, saved-report filtering and the file dialog. At 390 x 844 the dialog
+remained readable and page scroll width was 375px. Escape closed the dialog.
+No browser console errors were observed. Reduced-motion and touch fallbacks were
+implemented; physical-device and OS-preference testing remain unverified.
+
 ## Studio refinement — 2026-10-04
 
 The local dashboard now uses a graphite sidebar, warm paper surfaces and copper

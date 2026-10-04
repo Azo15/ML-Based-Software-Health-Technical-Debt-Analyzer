@@ -5,9 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CodeScope · Yazılım Sağlığı</title>
     <link rel="stylesheet" href="/assets/style.css" />
+    <link rel="stylesheet" href="/assets/atmosphere.css" />
     <script src="/assets/app.js" defer></script>
+    <script src="/assets/atmosphere.js" defer></script>
   </head>
   <body>
+    <div class="code-atmosphere" aria-hidden="true">
+      <div class="code-stream">
+        <pre>
+GET /repository/history
+200 OK · application/json
+
+async def analyze(repository):
+    commits = await read_history()
+    return extract_metrics(commits)
+
+{ "branch": "main",
+  "analysis": "queued" }
+
+POST /analysis
+Content-Type: application/json</pre
+        >
+      </div>
+      <div class="code-stream">
+        <pre>
+&lt;pipeline&gt;
+  &lt;stage&gt;extract&lt;/stage&gt;
+  &lt;stage&gt;evaluate&lt;/stage&gt;
+&lt;/pipeline&gt;
+
+const report = await scan(source);
+return { metrics, findings };
+
+GET /reports/latest
+{ "format": "json" }
+
+def complexity(node):
+    return count_branches(node)</pre
+        >
+      </div>
+      <div class="code-stream">
+        <pre>
+POST /jobs
+202 Accepted
+
+{ "metrics": {
+    "complexity": "measured",
+    "churn": "historical"
+  }
+}
+
+await queue.process(job)
+yield { stage: "analyzing" }
+
+&lt;report format="json" /&gt;</pre
+        >
+      </div>
+      <div class="pointer-light"></div>
+    </div>
     <a class="skip-link" href="#new-scan">Analize geç</a>
     <aside class="sidebar">
       <a class="brand" href="/" aria-label="CodeScope ana sayfa"
@@ -38,8 +93,17 @@
     </aside>
     <main>
       <header class="topbar">
-        <span>Çalışma alanı <span class="crumb">/</span> Proje analizi</span
-        ><span class="pill">PYTHON · YEREL</span>
+        <span>Çalışma alanı <span class="crumb">/</span> Proje analizi</span>
+        <div class="topbar-actions">
+          <button
+            id="motion-toggle"
+            class="motion-toggle"
+            type="button"
+            aria-pressed="false"
+          >
+            Hareketi durdur</button
+          ><span class="pill">PYTHON · YEREL</span>
+        </div>
       </header>
       <section class="intro">
         <div class="intro-copy">

@@ -1,0 +1,369 @@
+/* Emerald glass theme. Code streams are illustrative, never live telemetry. */
+:root {
+  color-scheme: dark;
+  color: #e2f3eb;
+  background: #071510;
+  --accent: #75e6ac;
+  --muted: #a3bcb0;
+  --line: #9cddbd26;
+  --pointer-x: 50vw;
+  --pointer-y: 30vh;
+}
+body {
+  isolation: isolate;
+  background: transparent;
+}
+.code-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 85% 15%, #174b3459, transparent 65%), #071510;
+}
+.code-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #07151005, #071510a8);
+}
+.code-stream {
+  position: absolute;
+  top: -15%;
+  width: 34%;
+  height: 140%;
+  opacity: 0.19;
+  transform: rotate(-9deg);
+  animation: code-drift 36s ease-in-out infinite alternate;
+}
+.code-stream:nth-child(1) {
+  left: 3%;
+}
+.code-stream:nth-child(2) {
+  left: 38%;
+  animation-delay: -14s;
+  animation-duration: 43s;
+}
+.code-stream:nth-child(3) {
+  left: 74%;
+  animation-delay: -26s;
+  animation-duration: 49s;
+}
+.code-stream pre {
+  color: #80e9af;
+  font:
+    14px/3 Consolas,
+    monospace;
+  letter-spacing: 0.7px;
+  white-space: pre;
+}
+.pointer-light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    480px circle at var(--pointer-x) var(--pointer-y),
+    #5dffac26,
+    transparent 75%
+  );
+  transition: opacity 0.4s;
+}
+.pointer-active .pointer-light {
+  opacity: 1;
+}
+main {
+  position: relative;
+}
+.sidebar {
+  background: #081911d9;
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--line);
+}
+.card,
+.signal-art {
+  background: #11251bbd;
+  border-color: #b3f4cf2b;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 1px #c4ffdf10,
+    0 14px 40px #0000001c;
+}
+.scan-card {
+  background: linear-gradient(120deg, #183a2ad6, #10241bbd);
+}
+.card:hover {
+  border-color: #9fe5bc4d;
+}
+.intro {
+  padding-block: 50px;
+}
+h1 {
+  color: #ecfff3;
+}
+h1 span,
+.brand-icon,
+.eyebrow,
+.intro-tags span::before {
+  color: #7ee8ab;
+}
+.intro-tags,
+.file-toolbar,
+.journey p,
+.stat span,
+.stat small,
+.muted,
+.hint,
+.section-heading p,
+.intro p,
+.job-panel p {
+  color: #a3bcb0;
+}
+.brand-label {
+  color: #a4cbb5;
+  border-color: #70ba924a;
+}
+.topbar {
+  border-color: var(--line);
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.motion-toggle {
+  background: transparent;
+  color: #b7d6c5;
+  border: 1px solid #80c29f38;
+  border-radius: 8px;
+  font-size: 11px;
+  padding: 9px 12px;
+}
+.motion-toggle:hover {
+  background: #99ffc411;
+}
+.motion-toggle:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.pill {
+  color: #ade9c5;
+  background: #1b382a;
+  border-color: #76bd9640;
+}
+.nav-active,
+.history button.active,
+.history button:hover {
+  background: #71d79912;
+  border-color: #72c89a30;
+}
+.history button {
+  color: #d3e8dc;
+}
+.history small,
+.workspace-label,
+.history-heading,
+.sidebar-foot p {
+  color: #9ab3a5;
+}
+.sidebar-foot {
+  color: #c1dbcc;
+  border-color: var(--line);
+}
+.history {
+  scrollbar-color: #385b46 transparent;
+}
+.dot,
+.signal-point {
+  background: #83efb0;
+  box-shadow: 0 0 12px #68edaa55;
+}
+.signal-art {
+  transform: rotate(-2deg);
+  background: #0d2018b8;
+}
+.signal-caption,
+.signal-bottom,
+.signal-number {
+  color: #9db9aa;
+}
+.signal-row {
+  color: #d7eee0;
+  background: #b2ffd005;
+  border-color: #94dbb42b;
+}
+.signal-final {
+  background: #65ec9f12;
+  color: #94f5be;
+  border-color: #77e6a75c;
+}
+.signal-connector {
+  border-color: #73ce9b55;
+}
+input,
+select {
+  color: #deefe5;
+  background: #06160ebf;
+  border-color: #93cfa63d;
+}
+input::placeholder {
+  color: #839d8e;
+}
+input:focus,
+:focus-visible {
+  outline-color: #83efb0;
+  border-color: #83efb0;
+}
+.filter-toggle input {
+  accent-color: #7ee8ab;
+}
+.primary {
+  background: #85edb1;
+  color: #092416;
+  box-shadow: 0 3px 20px #56e99519;
+}
+.primary:hover {
+  background: #acf9c9;
+}
+.secondary {
+  color: #cee8d9;
+  background: #163021;
+  border-color: #8bd4ab38;
+}
+.secondary:hover {
+  color: #a0f3bd;
+  border-color: #78e5a2;
+}
+.advanced,
+.journey,
+.journey article + article {
+  border-color: var(--line);
+}
+.journey {
+  background: #0f23177d;
+  border-radius: 12px;
+  padding-inline: 12px;
+}
+.journey article > span {
+  color: #8fd6aa;
+}
+.notice {
+  background: #133622a6;
+  color: #c1decf;
+  border-color: #72c897;
+}
+th {
+  color: #b5cdbf;
+  background: #0b2017dc;
+}
+td {
+  border-color: #a2dabb16;
+  font-variant-numeric: tabular-nums;
+}
+tbody tr:hover {
+  background: #85edb10a;
+}
+.file-button {
+  color: #c4edcf;
+  text-decoration-color: #699e7f;
+}
+td.has-findings {
+  color: #f0d395;
+}
+.error {
+  background: #411e22;
+  color: #ffd0c7;
+}
+.detail-section ul,
+pre {
+  color: #adcabb;
+}
+footer {
+  color: #a3bcb0;
+}
+footer span {
+  color: #91ac9d;
+}
+dialog {
+  background: #10251a;
+  color: #e2f3eb;
+  border-color: #7bca9f55;
+  box-shadow: 0 30px 100px #0008;
+}
+dialog::backdrop {
+  background: #010c08ad;
+  backdrop-filter: blur(7px);
+}
+.finding {
+  background: #1a3526;
+}
+.finding p {
+  color: #b4cebd;
+}
+.skip-link {
+  background: #153e28;
+  color: #eefff2;
+}
+.motion-paused .code-stream,
+.page-hidden .code-stream {
+  animation-play-state: paused;
+}
+.motion-paused .pointer-light {
+  display: none;
+}
+@keyframes code-drift {
+  from {
+    transform: translateY(-35px) rotate(-9deg);
+  }
+  to {
+    transform: translateY(95px) rotate(-6deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .code-stream {
+    animation: none;
+  }
+  .pointer-light {
+    display: none;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .pointer-light {
+    display: none;
+  }
+  .code-stream {
+    animation: none;
+  }
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .card,
+  .signal-art,
+  .sidebar {
+    background: #10251a;
+  }
+}
+@media (max-width: 700px) {
+  .topbar {
+    height: auto;
+    min-height: 70px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-block: 12px;
+  }
+  .topbar-actions {
+    gap: 8px;
+  }
+  .intro {
+    padding-block: 30px;
+  }
+  .code-stream {
+    width: 65%;
+    opacity: 0.12;
+  }
+  .code-stream:nth-child(3) {
+    display: none;
+  }
+  .journey {
+    padding-inline: 16px;
+  }
+}
