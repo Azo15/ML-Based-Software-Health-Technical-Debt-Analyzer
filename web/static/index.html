@@ -8,9 +8,13 @@
     <script src="/assets/app.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#new-scan">Analize geç</a>
     <aside class="sidebar">
       <a class="brand" href="/" aria-label="CodeScope ana sayfa"
-        ><span class="brand-icon">⌘</span> CodeScope</a
+        ><span class="brand-icon" aria-hidden="true">[c]</span> CodeScope<span
+          class="brand-label"
+          >LAB</span
+        ></a
       >
       <div class="workspace-label">ÇALIŞMA ALANIN</div>
       <a class="nav-active" href="#new-scan">◈ <span>Proje analizi</span></a>
@@ -38,12 +42,38 @@
         ><span class="pill">PYTHON · YEREL</span>
       </header>
       <section class="intro">
-        <div class="eyebrow">KODUNUN DURUMUNU ANLA</div>
-        <h1>Daha anlaşılır kod.<br /><span>Daha bilinçli kararlar.</span></h1>
-        <p>
-          Projenin bakım ihtiyaçlarını keşfet, dosyaları incele ve sonraki
-          adımını belirle.
-        </p>
+        <div class="intro-copy">
+          <div class="eyebrow">YAZILIM SAĞLIĞI / ANALİZ STÜDYOSU</div>
+          <h1>Kodun içindeki<br /><span>hikâyeyi gör.</span></h1>
+          <p>
+            Geçmişten gelen sinyalleri keşfet. Bakım gerektiren noktaları bul.
+            Bir sonraki değişikliğine güvenle karar ver.
+          </p>
+          <div class="intro-tags">
+            <span>Git geçmişi</span><span>Kod metrikleri</span
+            ><span>Açıklanabilir bulgular</span>
+          </div>
+        </div>
+        <div class="signal-art" aria-hidden="true">
+          <div class="signal-caption">ANALİZ AKIŞI <span>01 — 03</span></div>
+          <div class="signal-row">
+            <span class="signal-number">01</span
+            ><span class="signal-code">commit → snapshot</span
+            ><span class="signal-point"></span>
+          </div>
+          <div class="signal-connector"></div>
+          <div class="signal-row">
+            <span class="signal-number">02</span
+            ><span class="signal-code">complexity · churn</span
+            ><span class="signal-point"></span>
+          </div>
+          <div class="signal-connector"></div>
+          <div class="signal-row signal-final">
+            <span class="signal-number">03</span
+            ><span class="signal-code">bulgu → karar</span><span>↗</span>
+          </div>
+          <div class="signal-bottom">KAYNAKTAN İÇGÖRÜYE<span>＋</span></div>
+        </div>
       </section>
       <section
         id="new-scan"
@@ -117,15 +147,26 @@
         ></progress>
       </section>
       <section id="welcome" class="welcome">
-        <span class="welcome-icon">⌁</span>
-        <h2>İlk bakış, doğru başlangıç.</h2>
-        <p>
-          Analiz tamamlandığında dosya metrikleri, bakım önerileri<br />ve varsa
-          deneysel risk sıralaması burada görünecek.
-        </p>
-        <div class="welcome-tags">
-          <span>Karmaşıklık ölçümleri</span><span>Bakım önerileri</span
-          ><span>İndirilebilir rapor</span>
+        <div class="welcome-heading">
+          <span class="eyebrow">NASIL ÇALIŞIR?</span>
+          <h2>Üç adımda daha net bir bakış.</h2>
+        </div>
+        <div class="journey">
+          <article>
+            <span>01 / KEŞFET</span>
+            <h3>Geçmişi oku.</h3>
+            <p>Commit geçmişi ve mevcut Python dosyaları birlikte incelenir.</p>
+          </article>
+          <article>
+            <span>02 / ANLA</span>
+            <h3>Önceliğini belirle.</h3>
+            <p>Karmaşıklık ve bakım bulgularını dosya düzeyinde değerlendir.</p>
+          </article>
+          <article>
+            <span>03 / PAYLAŞ</span>
+            <h3>Kararını destekle.</h3>
+            <p>Ölçümleri ve önerileri JSON ya da CSV olarak dışa aktar.</p>
+          </article>
         </div>
       </section>
       <section id="results" hidden>
@@ -167,6 +208,22 @@
               aria-label="Dosya adına göre filtrele"
               placeholder="Dosya ara…"
             />
+          </div>
+          <div class="file-toolbar">
+            <label class="filter-toggle"
+              ><input id="findings-only" type="checkbox" /> Yalnızca bulgulu
+              dosyalar</label
+            >
+            <label class="sort-label"
+              >Sırala
+              <select id="file-sort">
+                <option value="original">Rapor sırası</option>
+                <option value="findings">Bulgu sayısı</option>
+                <option value="complexity">Karmaşıklık</option>
+                <option value="name">Dosya adı</option>
+              </select></label
+            >
+            <span id="visible-count" role="status"></span>
           </div>
           <div class="table-wrap">
             <table>

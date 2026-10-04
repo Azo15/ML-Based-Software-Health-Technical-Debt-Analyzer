@@ -153,6 +153,8 @@ function renderReport(report, job) {
   files = report.files || [];
   $("results").hidden = false;
   $("search").value = "";
+  $("findings-only").checked = false;
+  $("file-sort").value = "original";
   text("project-name", projectName(report.repository || job.payload.repo_path));
   const status = {
     complete: "Analiz tamamlandı",
@@ -196,9 +198,29 @@ function renderReport(report, job) {
 }
 function renderFiles() {
   const query = $("search").value.toLocaleLowerCase("tr-TR");
-  const selected = files.filter((file) =>
-    file.path.toLocaleLowerCase("tr-TR").includes(query),
+  const selected = files.filter(
+    (file) =>
+      file.path.toLocaleLowerCase("tr-TR").includes(query) &&
+      (!$("findings-only").checked ||
+        file.result.maintainability_findings.length > 0),
   );
+  const sort = $("file-sort").value;
+  if (sort !== "original")
+    selected.sort((a, b) => {
+      const byName = a.path.localeCompare(b.path, "tr");
+      if (sort === "findings")
+        return (
+          b.result.maintainability_findings.length -
+            a.result.maintainability_findings.length || byName
+        );
+      if (sort === "complexity")
+        return (
+          b.metrics.cyclomatic_complexity_max -
+            a.metrics.cyclomatic_complexity_max || byName
+        );
+      return byName;
+    });
+  text("visible-count", `${selected.length} / ${files.length} dosya`);
   $("file-rows").replaceChildren();
   $("empty-files").hidden = selected.length > 0;
   for (const file of selected) {
@@ -223,6 +245,8 @@ function renderFiles() {
       td.textContent = value;
       row.append(td);
     }
+    if (file.result.maintainability_findings.length > 0)
+      row.lastElementChild.className = "has-findings";
     $("file-rows").append(row);
   }
 }
@@ -269,6 +293,8 @@ function openFile(file) {
 }
 $("close-dialog").addEventListener("click", () => $("file-dialog").close());
 $("search").addEventListener("input", renderFiles);
+$("findings-only").addEventListener("change", renderFiles);
+$("file-sort").addEventListener("change", renderFiles);
 $("refresh").addEventListener("click", async () => {
   try {
     await refreshHistory();
