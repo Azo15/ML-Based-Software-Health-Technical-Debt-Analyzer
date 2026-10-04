@@ -47,7 +47,10 @@ single-worker queue, durable SQLite reports, progress/error endpoints and report
 downloads. All 48 tests passed, including HTTP-to-analysis integration. See
 `LOCAL_API.md`. Phase 4.2 implemented on 2026-10-02: Turkish project/results UI,
 scan history, file search/details and downloads; 49 tests passed and the real
-browser flow was checked. See `WEB_UI.md`. MVP acceptance (4.3) remains outstanding.
+browser flow was checked. See `WEB_UI.md`. Phase 4.3 local MVP acceptance completed
+on Windows on 2026-10-04: 51 passing tests, fresh environment, launcher, empty/error
+flows, browser exports, responsive layout and basic keyboard checks. See
+`MVP_ACCEPTANCE.md`. This is not a production or scientific-validation certification.
 
 ## Phase 5 — GitHub and CI integration
 

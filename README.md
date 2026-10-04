@@ -1,5 +1,9 @@
 # 🩺 ML-Based Software Health & Technical Debt Analyzer 
 
+**CodeScope yerel web MVP'si denemeye hazır.** Windows kurulumu, `start.cmd` ile
+başlatma ve kullanım adımları için [hızlı başlangıç](docs/QUICKSTART_TR.md).
+Doğrulama kapsamı ve sınırlar: [MVP kabul kaydı](docs/MVP_ACCEPTANCE.md).
+
 Modern yazılım projelerinde teknik borcu (technical debt) tespit etmek ve yönetmek, kodun uzun vadeli sürdürülebilirliği için kritik bir öneme sahiptir. **ML-Based Software Health & Technical Debt Analyzer**, Python projelerinin Git geçmişini analiz eden, karmaşıklık metriklerini çıkaran ve makine öğrenmesi algoritmaları kullanarak kodun sağlık durumunu otomatik olarak değerlendiren profesyonel bir komut satırı (CLI) aracıdır.
 
 ![CLI Output](https://github.com/user-attachments/assets/911260f0-07f1-4f93-b3f3-338c646e7ac9)

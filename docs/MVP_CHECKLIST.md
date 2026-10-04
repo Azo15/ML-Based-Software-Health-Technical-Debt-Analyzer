@@ -22,6 +22,7 @@ scores and still provide maintainability findings when no model can be trained.
 5. Phase 4.3 — **MVP ready for user testing**: complete the full journey below on
    Windows, provide a repeatable launch command, and verify empty/invalid projects
    and small datasets show understandable messages.
+   Completed on Windows, 2026-10-04; see `MVP_ACCEPTANCE.md` and `QUICKSTART_TR.md`.
 
 ## Acceptance journey
 
