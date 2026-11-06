@@ -40,7 +40,7 @@ ML-Based Software Health & Technical Debt Analyzer/
 │
 └── requirements.txt         # Proje bağımlılıkları
 
-## 🚀 Kurulum
+## 🚀 Kurulum.
 
 Python 3.12 veya üzeri gereklidir. Tekrarlanabilir kurulum için bu sürümde test edilen bağımlılıklar `requirements.lock` içinde sabitlenmiştir. `venv` klasörü Git tarafından takip edilmez; her makinede yeniden oluşturulur.
 
