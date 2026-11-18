@@ -50,3 +50,4 @@ açılışta kesintiye uğramış olarak görünür. Uzun geçmişlerde analiz z
 Bu sürüm yerel, tek kullanıcılı Python MVP'sidir. Genel internete açılmak üzere
 tasarlanmamıştır. GitHub URL içe aktarma, çoklu dil ve otomatik düzeltme kapsamda
 değildir. Bilimsel model doğrulaması MVP kullanılabilirliğinden ayrı devam eder.
+- Karşılaştırma ve Repo Haritası görünümleri yalnızca analiz edilmiş dosyaları kullanır; ayrıntılar için `docs/WEB_UI.md` dosyasına bakın.
