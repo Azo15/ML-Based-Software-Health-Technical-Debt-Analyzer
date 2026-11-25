@@ -1,0 +1,718 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "repository": "Software Health Analyzer",
+  "repository_state": {
+    "head": "aa25ef6ed99688c5df1f7fdfd6438ac71ebf064c",
+    "head_at_completion": "aa25ef6ed99688c5df1f7fdfd6438ac71ebf064c",
+    "tracked_changes": false
+  },
+  "scan": {
+    "max_commits": 25,
+    "observation_commits": 10,
+    "file": null,
+    "excludes": []
+  },
+  "model_evaluation": "Model unavailable: at least 10 labeled file revisions are required.",
+  "evaluation_details": {
+    "status": "unavailable"
+  },
+  "files": [
+    {
+      "path": "analysis/service.py",
+      "metrics": {
+        "cyclomatic_complexity": 9.6,
+        "cyclomatic_complexity_max": 27.0,
+        "halstead_volume": 574.217441339053,
+        "halstead_difficulty": 8.076923076923077,
+        "halstead_effort": 4637.91010312312,
+        "loc": 142.0,
+        "lloc": 134.0,
+        "num_functions": 5.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 27.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "cli/main.py",
+      "metrics": {
+        "cyclomatic_complexity": 6.5,
+        "cyclomatic_complexity_max": 12.0,
+        "halstead_volume": 53.77443751081735,
+        "halstead_difficulty": 1.6666666666666667,
+        "halstead_effort": 89.62406251802892,
+        "loc": 59.0,
+        "lloc": 52.0,
+        "num_functions": 2.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 12.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "data_collector/dataset.py",
+      "metrics": {
+        "cyclomatic_complexity": 13.0,
+        "cyclomatic_complexity_max": 13.0,
+        "halstead_volume": 105.48604608143,
+        "halstead_difficulty": 4.5,
+        "halstead_effort": 474.687207366435,
+        "loc": 46.0,
+        "lloc": 35.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 13.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "data_collector/git_miner.py",
+      "metrics": {
+        "cyclomatic_complexity": 5.333333333333333,
+        "cyclomatic_complexity_max": 14.0,
+        "halstead_volume": 150.41407098051496,
+        "halstead_difficulty": 5.5588235294117645,
+        "halstead_effort": 836.1252769210979,
+        "loc": 62.0,
+        "lloc": 49.0,
+        "num_functions": 3.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 14.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "experiments/run.py",
+      "metrics": {
+        "cyclomatic_complexity": 6.4,
+        "cyclomatic_complexity_max": 12.0,
+        "halstead_volume": 331.26788080279727,
+        "halstead_difficulty": 6.162162162162162,
+        "halstead_effort": 2041.3264006226427,
+        "loc": 120.0,
+        "lloc": 90.0,
+        "num_functions": 5.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 12.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "feature_extractor/metrics_analyzer.py",
+      "metrics": {
+        "cyclomatic_complexity": 13.0,
+        "cyclomatic_complexity_max": 13.0,
+        "halstead_volume": 60.91767875292166,
+        "halstead_difficulty": 2.0,
+        "halstead_effort": 121.83535750584332,
+        "loc": 59.0,
+        "lloc": 52.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 13.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "model/debt_estimator.py",
+      "metrics": {
+        "cyclomatic_complexity": 5.25,
+        "cyclomatic_complexity_max": 13.0,
+        "halstead_volume": 372.314829546608,
+        "halstead_difficulty": 6.2926829268292686,
+        "halstead_effort": 2342.8591712932894,
+        "loc": 149.0,
+        "lloc": 106.0,
+        "num_functions": 4.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": [
+          {
+            "rule": "complex_function",
+            "reason": "Most complex function has cyclomatic complexity 13.0 (>10)",
+            "suggestion": "Review the function's branches and extract coherent steps with tests."
+          }
+        ]
+      }
+    },
+    {
+      "path": "analysis/__init__.py",
+      "metrics": {
+        "cyclomatic_complexity": 0.0,
+        "cyclomatic_complexity_max": 0.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 0.0,
+        "lloc": 1.0,
+        "num_functions": 0.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "analysis/report_export.py",
+      "metrics": {
+        "cyclomatic_complexity": 3.0,
+        "cyclomatic_complexity_max": 6.0,
+        "halstead_volume": 68.53238859703687,
+        "halstead_difficulty": 1.6363636363636365,
+        "halstead_effort": 112.14390861333307,
+        "loc": 40.0,
+        "lloc": 32.0,
+        "num_functions": 3.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "cli/report_export.py",
+      "metrics": {
+        "cyclomatic_complexity": 0.0,
+        "cyclomatic_complexity_max": 0.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 2.0,
+        "lloc": 3.0,
+        "num_functions": 0.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "data_collector/history.py",
+      "metrics": {
+        "cyclomatic_complexity": 8.0,
+        "cyclomatic_complexity_max": 8.0,
+        "halstead_volume": 80.0,
+        "halstead_difficulty": 3.9,
+        "halstead_effort": 312.0,
+        "loc": 21.0,
+        "lloc": 19.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "experiments/__init__.py",
+      "metrics": {
+        "cyclomatic_complexity": 0.0,
+        "cyclomatic_complexity_max": 0.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 0.0,
+        "lloc": 1.0,
+        "num_functions": 0.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "model/evaluation.py",
+      "metrics": {
+        "cyclomatic_complexity": 8.0,
+        "cyclomatic_complexity_max": 8.0,
+        "halstead_volume": 125.38411712391756,
+        "halstead_difficulty": 4.0,
+        "halstead_effort": 501.53646849567025,
+        "loc": 25.0,
+        "lloc": 22.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_analysis_cli.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.4666666666666666,
+        "cyclomatic_complexity_max": 3.0,
+        "halstead_volume": 146.71880002307702,
+        "halstead_difficulty": 2.1,
+        "halstead_effort": 308.10948004846176,
+        "loc": 134.0,
+        "lloc": 121.0,
+        "num_functions": 15.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_cli.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.0,
+        "cyclomatic_complexity_max": 1.0,
+        "halstead_volume": 4.754887502163469,
+        "halstead_difficulty": 0.5,
+        "halstead_effort": 2.3774437510817346,
+        "loc": 13.0,
+        "lloc": 13.0,
+        "num_functions": 2.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_cli_help.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.0,
+        "cyclomatic_complexity_max": 1.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 12.0,
+        "lloc": 12.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_dataset.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.2857142857142858,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 13.931568569324174,
+        "halstead_difficulty": 0.5,
+        "halstead_effort": 6.965784284662087,
+        "loc": 61.0,
+        "lloc": 42.0,
+        "num_functions": 7.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_debt_findings.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.5,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 32.0,
+        "lloc": 18.0,
+        "num_functions": 2.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_evaluation.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.25,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 33.68825906469125,
+        "halstead_difficulty": 1.6,
+        "halstead_effort": 53.901214503506004,
+        "loc": 22.0,
+        "lloc": 22.0,
+        "num_functions": 4.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_experiments.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.3333333333333333,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 13.931568569324174,
+        "halstead_difficulty": 0.5,
+        "halstead_effort": 6.965784284662087,
+        "loc": 46.0,
+        "lloc": 48.0,
+        "num_functions": 6.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_git_miner.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.25,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 15.509775004326936,
+        "halstead_difficulty": 1.0,
+        "halstead_effort": 15.509775004326936,
+        "loc": 60.0,
+        "lloc": 54.0,
+        "num_functions": 8.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_history.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.2,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 22.0,
+        "lloc": 21.0,
+        "num_functions": 5.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_metrics.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.5,
+        "cyclomatic_complexity_max": 3.0,
+        "halstead_volume": 39.863137138648355,
+        "halstead_difficulty": 1.0,
+        "halstead_effort": 39.863137138648355,
+        "loc": 27.0,
+        "lloc": 25.0,
+        "num_functions": 4.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_model.py",
+      "metrics": {
+        "cyclomatic_complexity": 2.0,
+        "cyclomatic_complexity_max": 5.0,
+        "halstead_volume": 247.5879750389425,
+        "halstead_difficulty": 3.6,
+        "halstead_effort": 891.316710140193,
+        "loc": 92.0,
+        "lloc": 63.0,
+        "num_functions": 6.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_report_export.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.0,
+        "cyclomatic_complexity_max": 1.0,
+        "halstead_volume": 4.754887502163469,
+        "halstead_difficulty": 0.5,
+        "halstead_effort": 2.3774437510817346,
+        "loc": 50.0,
+        "lloc": 26.0,
+        "num_functions": 3.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "tests/test_web.py",
+      "metrics": {
+        "cyclomatic_complexity": 1.4615384615384615,
+        "cyclomatic_complexity_max": 3.0,
+        "halstead_volume": 101.95026032264605,
+        "halstead_difficulty": 2.857142857142857,
+        "halstead_effort": 291.28645806470297,
+        "loc": 128.0,
+        "lloc": 136.0,
+        "num_functions": 13.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "utils/logger.py",
+      "metrics": {
+        "cyclomatic_complexity": 2.0,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 15.0,
+        "lloc": 17.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "web/__init__.py",
+      "metrics": {
+        "cyclomatic_complexity": 0.0,
+        "cyclomatic_complexity_max": 0.0,
+        "halstead_volume": 0.0,
+        "halstead_difficulty": 0.0,
+        "halstead_effort": 0.0,
+        "loc": 0.0,
+        "lloc": 1.0,
+        "num_functions": 0.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "web/__main__.py",
+      "metrics": {
+        "cyclomatic_complexity": 2.0,
+        "cyclomatic_complexity_max": 2.0,
+        "halstead_volume": 31.699250014423125,
+        "halstead_difficulty": 1.5,
+        "halstead_effort": 47.548875021634686,
+        "loc": 13.0,
+        "lloc": 14.0,
+        "num_functions": 1.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "web/app.py",
+      "metrics": {
+        "cyclomatic_complexity": 2.111111111111111,
+        "cyclomatic_complexity_max": 4.0,
+        "halstead_volume": 230.81773576252348,
+        "halstead_difficulty": 3.103448275862069,
+        "halstead_effort": 716.3309040905901,
+        "loc": 78.0,
+        "lloc": 87.0,
+        "num_functions": 9.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    },
+    {
+      "path": "web/jobs.py",
+      "metrics": {
+        "cyclomatic_complexity": 2.6666666666666665,
+        "cyclomatic_complexity_max": 6.0,
+        "halstead_volume": 28.529325012980813,
+        "halstead_difficulty": 1.5,
+        "halstead_effort": 42.793987519471216,
+        "loc": 99.0,
+        "lloc": 98.0,
+        "num_functions": 9.0,
+        "valid": true,
+        "parse_error": null
+      },
+      "result": {
+        "risk_score": null,
+        "risk_score_kind": "unavailable",
+        "maintainability_findings": []
+      }
+    }
+  ],
+  "skipped_files": [
+    {
+      "path": "cli/__init__.py",
+      "reason": "empty_file"
+    },
+    {
+      "path": "data_collector/__init__.py",
+      "reason": "empty_file"
+    },
+    {
+      "path": "feature_extractor/__init__.py",
+      "reason": "empty_file"
+    },
+    {
+      "path": "model/__init__.py",
+      "reason": "empty_file"
+    },
+    {
+      "path": "utils/__init__.py",
+      "reason": "empty_file"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "risk_unavailable",
+      "message": "Model unavailable: at least 10 labeled file revisions are required."
+    }
+  ],
+  "summary": {
+    "analyzed_files": 31,
+    "skipped_files": 5,
+    "training_revisions": 0,
+    "excluded_training_revisions": 0
+  }
+}
