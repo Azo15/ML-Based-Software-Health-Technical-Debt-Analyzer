@@ -1480,3 +1480,7 @@ dialog h3 {
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
 }
+
+.public-demo #scan-form { display: none; }
+.demo-notice { position: relative; z-index: 5; padding: .75rem 1rem; text-align: center; background: #e6f7ff; color: #102640; }
+.demo-notice a { color: inherit; text-decoration: underline; }
